@@ -11,7 +11,6 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../constants/apiEndPoints.dart';
-import '../../../../shared/widgets/diffUserText.dart';
 import '../../../user_and_seller/view/auth/welcome_back-page-owner.dart';
 import '../../../user_and_seller/view/profile_page_content/order_request.dart';
 
@@ -70,7 +69,7 @@ class _WelcomeBackPageDriverState extends State<WelcomeBackPageDriver> {
       child: InkWell(
         onTap: () {
           DeliveryAuthController.driverLogin(
-                  email: email.text, password: password.text)
+              email: email.text, password: password.text)
               .then((value) async {
             if (value['auth'] == true) {
               final _prefs = await SharedPreferences.getInstance();
@@ -139,11 +138,11 @@ class _WelcomeBackPageDriverState extends State<WelcomeBackPageDriver> {
                   padding: const EdgeInsets.only(top: 8.0),
                   child: TextField(
                     controller: email,
-                    style: TextStyle(fontSize: 16.0, color: Colors.black12),
+                    style: TextStyle(fontSize: 16.0),
                     decoration: InputDecoration(
                         fillColor: Colors.grey.shade100,
                         filled: true,
-                        //hintText: "email",
+                        hintText: "email",
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                         )),
@@ -153,7 +152,7 @@ class _WelcomeBackPageDriverState extends State<WelcomeBackPageDriver> {
                   padding: const EdgeInsets.only(top: 8.0),
                   child: TextField(
                     controller: password,
-                    style: TextStyle(fontSize: 16.0, color: Colors.black12),
+                    style: TextStyle(fontSize: 16.0),
                     obscureText: true,
                     decoration: InputDecoration(
                       fillColor: Colors.grey.shade100,
@@ -173,7 +172,7 @@ class _WelcomeBackPageDriverState extends State<WelcomeBackPageDriver> {
     Widget loginSeller = Padding(
       padding: const EdgeInsets.only(bottom: 20),
       child:
-          Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+      Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
         Text(
           'Seller? ',
           style: TextStyle(
@@ -228,150 +227,38 @@ class _WelcomeBackPageDriverState extends State<WelcomeBackPageDriver> {
         ],
       ),
     );
-
-
-    final size = MediaQuery.of(context).size;
-
-    return SafeArea(
-      child: Scaffold(
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            SingleChildScrollView(
-              child: Container(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Image(
-                      image: AssetImage('assets/minions.jpg'),
-                      height: MediaQuery.of(context).size.height * 0.2,
-                    ),
-                    SizedBox(height: 20.0),
-                    Text(
-                      'Welcome Back,',
-                      style: TextStyle(
-                        fontSize: 30.0,
-                        fontWeight: FontWeight.w700,
-                        fontFamily: 'OpenSans',
-                        color: Colors.orangeAccent,
-                      ),
-                    ),
-                    SizedBox(height: 10.0),
-                    Text(
-                      'Login to your account using \nyour account number',
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        color: Colors.yellow[700],
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    SizedBox(height: 25.0),
-                    Form(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          TextField(
-                            controller: email,
-                            keyboardType: TextInputType.emailAddress,
-                            style: TextStyle(color: Colors.black54),
-                            decoration: InputDecoration(
-                              prefixIcon: Icon(Icons.person_outline_outlined, color: Colors.yellow[700]),
-                              labelText: 'Email',
-                              labelStyle: TextStyle(color: Colors.yellow[700]),
-                              hintText: 'example@gmail.com',
-                              hintStyle: TextStyle(color: Colors.black12),
-                              border: OutlineInputBorder(),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.yellow[700]!, width: 2.0),
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 20.0),
-                          TextField(
-                            controller: password,
-                            obscureText: true,
-                            style: TextStyle(color: Colors.black12),
-                            decoration: InputDecoration(
-                              prefixIcon: Icon(Icons.lock, color: Colors.yellow[700]),
-                              labelText: 'Password',
-                              labelStyle: TextStyle(color: Colors.yellow[700]),
-                              hintText: '12345678',
-                              hintStyle: TextStyle(color: Colors.grey),
-                              border: OutlineInputBorder(),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.yellow[700]!, width: 2.0),
-                              ),
-                              suffixIcon: IconButton(
-                                onPressed: () {},
-                                icon: Icon(Icons.remove_red_eye_rounded, color: Colors.yellow[700]),
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 20.0),
-                          Align(
-                            alignment: Alignment.center,
-                            child: InkWell(
-                              onTap: () {
-                                DeliveryAuthController.driverLogin(
-                                    email: email.text, password: password.text)
-                                    .then((value) async {
-                                  if (value['auth'] == true) {
-                                    final _prefs = await SharedPreferences.getInstance();
-                                    _prefs.setString('userEmail', email.text);
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) {
-                                      return ServicemanPage();
-                                    }));
-                                    // launch(context, RepairOrders.routeName, email.text);
-                                  } else if (value['auth'] == false) {
-                                    context.toast("Wrong email or password");
-                                  }
-                                });
-                              },
-                              child: Container(
-                                padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 80.0),
-                                decoration: BoxDecoration(
-                                  color: Colors.yellow[700],
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    'LOGIN (Driver)',
-                                    style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 20.0),
-                          Align(
-                            alignment: Alignment.center,
-                            child: TextButton(
-                              onPressed: () {},
-                              child: const Text('Forgot Password?', style: TextStyle(fontWeight: FontWeight.w700, fontFamily: 'OpenSans', fontSize: 16.0)),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: Stack(
+        children: <Widget>[
+          Container(
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage('assets/background.jpg'),
+                    fit: BoxFit.cover)),
+          ),
+          Container(
+            decoration: BoxDecoration(
+              color: transparentYellow,
             ),
-            SizedBox(height: 20,),
-            RegisterTextButton(
-              mainText: 'Seller? ',
-              actionText: 'Login here',
-              onTap: () => launch(context, WelcomeBackPageOwner.routeName)
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 28.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Spacer(flex: 3),
+                welcomeBack,
+                Spacer(),
+                subTitle,
+                Spacer(flex: 2),
+                loginForm,
+                loginSeller,
+                loginUser,
+              ],
             ),
-            RegisterTextButton(
-                mainText: 'User? ',
-                actionText: 'Login Here',
-                onTap: () => launch(context, WelcomeBackPage.routeName)
-            ),
-            const SizedBox(height: 20,)
-          ],
-        ),
+          )
+        ],
       ),
     );
   }
@@ -384,17 +271,17 @@ class _WelcomeBackPageDriverState extends State<WelcomeBackPageDriver> {
       "password": password.text,
     };
     //print(data);
+
     var response = await http.post(Uri.parse(url), body: data);
-
     print(response.body);
+    var deccodedResponse = jsonDecode(response.body);
 
-    var decodedResponse = jsonDecode(response.body);
-
-    if (decodedResponse == "true") {
+    //print(deccodedResponse);
+    if (deccodedResponse == "true") {
       launch(context, OrderRequest.routeName, email.text);
-    } else if (decodedResponse == "wrongPassword") {
+    } else if (deccodedResponse == "wrongPassword") {
       context.toast("Wrong password");
-    } else if (decodedResponse == "noUser") {
+    } else if (deccodedResponse == "noUser") {
       context.toast("Driver does not exist");
     }
   }

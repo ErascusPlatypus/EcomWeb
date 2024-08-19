@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 
 import '../../controller/userProductController.dart';
 import '../../model/products.dart';
+import '../rating/rating_page.dart';
 import '../user_place_order/place_order_and_confom.dart';
 import 'components/product_display.dart';
 
@@ -135,6 +136,43 @@ class _ProductPageState extends State<ProductPage> {
       ),
     );
 
+    //added by Dhanush - also adjusted sizing of the other buttons to accomodate this
+    Widget ratingButton = InkWell(
+      child: Container(
+        height: 80,
+        width: width / 1.5,
+        decoration: BoxDecoration(
+            gradient: mainButton,
+            boxShadow: [
+              BoxShadow(
+                color: Color.fromRGBO(0, 0, 0, 0.16),
+                offset: Offset(0, 5),
+                blurRadius: 10.0,
+              )
+            ],
+            borderRadius: BorderRadius.circular(9.0)),
+        child: GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => RatingPage(widget.email),
+              ),
+            );
+          },
+          child: Center(
+            child: Text("Rate Now",
+                style: const TextStyle(
+                    color: const Color(0xfffefefe),
+                    fontWeight: FontWeight.w600,
+                    fontStyle: FontStyle.normal,
+                    fontSize: 20.0)),
+          ),
+        ),
+      ),
+    );
+    // finished addition
+
     return Scaffold(
       backgroundColor: yellow,
       appBar: AppBar(
@@ -211,6 +249,7 @@ class _ProductPageState extends State<ProductPage> {
                     ],
                   ),
                 ),
+                //ratingPageButton,
                 SizedBox(
                   height: 16.0,
                 ),
@@ -223,7 +262,9 @@ class _ProductPageState extends State<ProductPage> {
                             fontWeight: FontWeight.w800,
                             fontFamily: "NunitoSans",
                             fontStyle: FontStyle.normal,
-                            fontSize: 16.0)))
+                            fontSize: 16.0)
+                    )
+                ),
               ],
             ),
           ),
@@ -249,13 +290,13 @@ class _ProductPageState extends State<ProductPage> {
                           ],
                               begin: FractionalOffset.topCenter,
                               end: FractionalOffset.bottomCenter)),
-                      width: 130,
+                      width: 110,
                       height: 100,
                       child: Center(child: orderNowButton),
                     ),
                   ),
                   SizedBox(
-                    width: 40,
+                    width: 20,
                   ),
 
                   Container(
@@ -271,9 +312,29 @@ class _ProductPageState extends State<ProductPage> {
                         ],
                             begin: FractionalOffset.topCenter,
                             end: FractionalOffset.bottomCenter)),
-                    width: 130,
+                    width: 120,
                     height: 100,
                     child: Center(child: viewProductButton),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(
+                        top: 8.0,
+                        bottom: bottomPadding != 20 ? 20 : bottomPadding),
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            colors: [
+                              Color.fromRGBO(255, 255, 255, 0),
+                              Color.fromRGBO(253, 192, 84, 0.5),
+                              Color.fromRGBO(253, 192, 84, 1),
+                            ],
+                            begin: FractionalOffset.topCenter,
+                            end: FractionalOffset.bottomCenter)),
+                    width: 110,
+                    height: 100,
+                    child: Center(child: ratingButton),
                   ),
                 ],
               ),

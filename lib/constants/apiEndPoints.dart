@@ -1,6 +1,6 @@
 class ApiEndPoints {
   // Change your base url here.
-  static String baseURL = "http://192.168.137.113:8080/php_code/";
+  static String baseURL = "http://10.0.2.2:8080/";
 
   // static String baseURL = "http://192.168.22.165/ecom/";
 
@@ -86,4 +86,7 @@ class ApiEndPoints {
   static String get_allmessages = "get_allmessages.php/";
   static String getmessages = "getmessages.php/";
   static String change_password = "change_password.php/";
+
+  //dhanush
+  static String get_liked_product = "liked_product_retrieve.php/" ;
 }

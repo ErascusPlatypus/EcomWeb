@@ -39,30 +39,28 @@ class _LikedProductState extends State<LikedProduct> {
   }
 
   Future<void> getProductDetails(String email) async {
-    // Define the URL of the PHP script
-    String url = ApiEndPoints.baseURL+ApiEndPoints.liked_product;
+    // added new API endpoint - Dhanush
+    String url = ApiEndPoints.baseURL+ApiEndPoints.get_liked_product;
+    //end addition
 
     try {
-      // Make a POST request to the PHP script with email as data
       var response = await http.post(Uri.parse(url), body: {'email_id': email});
       print(response.body);
-      // Check if the request was successful (status code 200)
       if (response.statusCode == 200) {
         Map<String, dynamic> data = json.decode(response.body);
         if (data['status'] == 'success') {
           List<dynamic> productDetails = data['product_details'];
           List<likedProduct> fetchedProducts =
-              []; // Temporary list to store products
+              [];
           for (var product in productDetails) {
             fetchedProducts.add(likedProduct
                 .fromJson(product)); 
           }
           setState(() {
             _products =
-                fetchedProducts; // Update the state with fetched products
+                fetchedProducts;
           });
         } else {
-          // Handle error if status is not success
           print('Error: ${data['message']}');
         }
       } else {
