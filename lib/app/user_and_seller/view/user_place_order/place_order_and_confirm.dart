@@ -30,12 +30,8 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen> {
 
   Future<void> _retrieveUserAddress() async {
     try {
-
-        //var responseBody = jsonDecode(res.body);
         var responseBody = jsonDecode('{"success": true, "data": {"flat_number": "123", "street": "Main St", "postal_code": "12345"}}');
         if (responseBody['success']) {
-          print("\n\n\nSuccesssssssssssssssss\n\n\n");
-          print("\n\n\n$responseBody['data']\n\n\n") ;
           var data = responseBody['data'];
           _flatNumberController.text = data['flat_number'] ?? '';
           _streetController.text = data['street'] ?? '';
@@ -45,11 +41,6 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen> {
             SnackBar(content: Text("No address found for this email")),
           );
         }
-      // } else {
-      //   ScaffoldMessenger.of(context).showSnackBar(
-      //     SnackBar(content: Text("Server error: ${res.statusCode}")),
-      //   );
-      // }
     } catch (e) {
       print(e.toString());
       ScaffoldMessenger.of(context).showSnackBar(
