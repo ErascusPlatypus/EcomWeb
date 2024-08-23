@@ -4,8 +4,10 @@ import 'package:ecommerce_int2/app/user_and_seller/controller/userController.dar
 import 'package:ecommerce_int2/helper/base.dart';
 import 'package:ecommerce_int2/app/user_and_seller/model/sell_item_data.dart';
 import 'package:flutter/material.dart';
+import '../../../../constants/apiEndPoints.dart';
 import '../../../../shared/widgets/InputDecorations.dart';
 import '../profile_page/profile_page_seller.dart';
+import 'package:http/http.dart' as http;
 
 class EditItem extends StatefulWidget {
   static const routeName = "/editItem";
@@ -24,12 +26,14 @@ class _EditItemState extends State<EditItem> {
   late File? tmpFile;
   String errMessage = 'Error Uploading Image';
   String fileName = "";
+  String sellerBoost = "Inactive" ;
 
   //TextController to read text entered in text field
   var name1 = new TextEditingController();
   var description1 = new TextEditingController();
   var price1 = new TextEditingController();
   var imgurl1 = new TextEditingController();
+  var boost1 = new TextEditingController();
 
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   @override
@@ -39,6 +43,7 @@ class _EditItemState extends State<EditItem> {
     description1.dispose();
     price1.dispose();
     imgurl1.dispose();
+    boost1.dispose();
     super.dispose();
   }
 
@@ -54,6 +59,24 @@ class _EditItemState extends State<EditItem> {
       price1.text = product.price;
     }
   }
+
+  Future<void> updateSellerBoost(int pid, String sellerBoost) async {
+    var url = Uri.parse(ApiEndPoints.baseURL + ApiEndPoints.update_seller_boost);
+    final response = await http.post(
+      url,
+      body: {
+        'pid': pid.toString(),
+        'sellerBoost': sellerBoost,
+      },
+    );
+
+    if (response.statusCode == 200) {
+      print('Boost updated successfully.');
+    } else {
+      print('Failed to update boost.');
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -173,18 +196,18 @@ class _EditItemState extends State<EditItem> {
                                     child: DropdownButtonFormField<String>(
                                       hint: Text("select category"),
                                       value: itemlist2[
-                                          int.parse(product.categoryId) - 1],
+                                      int.parse(product.categoryId) - 1],
                                       dropdownColor: Colors.blue[100],
                                       elevation: 5,
                                       decoration: InputDecoration(
                                           enabledBorder: OutlineInputBorder(
                                               borderRadius:
-                                                  BorderRadius.circular(25),
+                                              BorderRadius.circular(25),
                                               borderSide: BorderSide(
                                                   width: 1.5,
                                                   color: Colors.blue))),
                                       items:
-                                          itemlist2.map(buildMenuItem).toList(),
+                                      itemlist2.map(buildMenuItem).toList(),
                                       onChanged: (value) =>
                                           setState(() => category = value),
                                     ),
@@ -208,47 +231,27 @@ class _EditItemState extends State<EditItem> {
                                       },
                                     ),
                                   ),
-                                  // Padding(
-                                  //   padding: const EdgeInsets.only(
-                                  //       bottom: 15, left: 10, right: 10),
-                                  //   child: Column(
-                                  //     crossAxisAlignment:
-                                  //         CrossAxisAlignment.stretch,
-                                  //     children: <Widget>[
-                                  //       OutlineButton(
-                                  //         onPressed: chooseImage,
-                                  //         child: Text('Upload Product Image'),
-                                  //       ),
-                                  //       SizedBox(
-                                  //         height: 20.0,
-                                  //       ),
-                                  //       //showImage(),
-                                  //       SizedBox(
-                                  //         height: 20.0,
-                                  //       ),
-                                  //       OutlineButton(
-                                  //         onPressed: startUpload,
-                                  //         child: Text('Upload Image'),
-                                  //       ),
-                                  //       SizedBox(
-                                  //         height: 20.0,
-                                  //       ),
-                                  //       Text(
-                                  //         status,
-                                  //         textAlign: TextAlign.center,
-                                  //         style: TextStyle(
-                                  //           color: Colors.green,
-                                  //           fontWeight: FontWeight.w500,
-                                  //           fontSize: 20.0,
-                                  //         ),
-                                  //       ),
-                                  //       SizedBox(
-                                  //         height: 5.0,
-                                  //       ),
-                                  //     ],
-                                  //   ),
-                                  // ),
-
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        bottom: 15, left: 10, right: 10),
+                                    child: TextFormField(
+                                      controller: boost1,
+                                      keyboardType: TextInputType.text,
+                                      decoration: buildInputDecoration(
+                                          Icons.rocket_launch_sharp, "Boost"),
+                                      validator: (String? value) {
+                                        if (value!.isEmpty) {
+                                          return 'Inactive';
+                                        }
+                                        return null;
+                                      },
+                                      onSaved: (String? value) {
+                                        sellerBoost = value!;
+                                        int pid = 32;
+                                        updateSellerBoost(pid, sellerBoost);
+                                      },
+                                    ),
+                                  ),
                                   SizedBox(
                                     width: 200,
                                     height: 50,
@@ -263,7 +266,7 @@ class _EditItemState extends State<EditItem> {
                                       style: ElevatedButton.styleFrom(
                                         foregroundColor: Colors.white,
                                         backgroundColor:
-                                            Colors.blue, // Set the text color
+                                        Colors.blue, // Set the text color
                                       ),
                                       child: Text('Update Item'),
                                     ),
@@ -343,28 +346,8 @@ class _EditItemState extends State<EditItem> {
 
   RaisedButton(
       {Color? color,
-      required Null Function() onPressed,
-      required RoundedRectangleBorder shape,
-      required Color textColor,
-      required Text child}) {}
-
-// upload(String fileName) {
-//   http.post(, body: {
-//     "image": base64Image,
-//     "name": fileName,
-//   }).then((result) {
-//     setStatus(result.statusCode == 200 ? result.body : errMessage);
-//   }).catchError((error) {
-//     setStatus(error);
-//   });
-// }
-
-// Widget showImage() {
-//   return Flexible(
-//     child: Image.file(
-//       File(_imageFileList![0].path),
-//       fit: BoxFit.fill,
-//     ),
-//   );
-// }
+        required Null Function() onPressed,
+        required RoundedRectangleBorder shape,
+        required Color textColor,
+        required Text child}) {}
 }

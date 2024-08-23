@@ -26,7 +26,8 @@ class _ShopBottomSheetState extends State<ShopBottomSheet> {
         price: '45.3',
         categoryId: '1',
         sellerId: '1',
-        gst: '12'),
+        gst: '12',
+        sellerBoost: '1'),
   ];
 
   @override

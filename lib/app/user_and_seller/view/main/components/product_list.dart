@@ -197,6 +197,58 @@ class _ProductCardState extends State<ProductCard> {
     }
   }
 
+  Future<void> addUserHistory({
+    required String pid,
+    required String imageUrl,
+    required String name,
+    required String description,
+    required double price,
+    required int categoryId,
+    required int sellerId,
+    required double gst,
+    required String emailId,
+    }) async {
+    var url = Uri.parse(ApiEndPoints.baseURL + ApiEndPoints.add_user_history);
+
+    var data = {
+      'user_id': '5',
+      'product_id': pid,
+      'pd_image_url': imageUrl,
+      'product_name': name,
+      'description': description,
+      'product_price': price.toString(),
+      'categoryid': categoryId.toString(),
+      'seller_id': sellerId.toString(),
+      'gst': gst.toString(),
+      'user_email': emailId,
+    };
+
+    try {
+      var response = await http.post(url, body: data);
+
+      if (response.statusCode == 200) {
+        final res = jsonDecode(response.body);
+
+        if (res['message'] == "success") {
+          setState(() {
+            isLiked = true;
+          });
+          context.toast("Added to liked List");
+        }
+        // print('Data sent successfully');
+        print('Response: ${response.body}');
+        // Handle success response here
+      } else {
+        print('Failed to send data');
+        // Handle error response here
+      }
+    } catch (e) {
+      print('Error: $e');
+      // Handle network error here
+    }
+  }
+
+
   Future<void> deleteLikedProduct(int pid, String email) async {
     final String url = ApiEndPoints.baseURL + ApiEndPoints.liked_product_delete;
 
@@ -225,8 +277,26 @@ class _ProductCardState extends State<ProductCard> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => Navigator.of(context).push(MaterialPageRoute(
-          builder: (_) => ProductPage(widget.email2, product: widget.product))),
+      onTap: () async {
+        // Log product view
+        await addUserHistory(
+          pid: widget.product.pid,
+          imageUrl: widget.product.imgurl,
+          name: widget.product.name,
+          description: widget.product.description,
+          price: double.parse(widget.product.price),
+          categoryId: int.parse(widget.product.categoryId),
+          sellerId: int.parse(widget.product.sellerId),
+          gst: double.parse(widget.product.gst),
+          emailId: widget.email2,
+        );
+
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => ProductPage(widget.email2, product: widget.product),
+          ),
+        );
+      },
       child: Stack(
         children: <Widget>[
           Container(

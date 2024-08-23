@@ -16,6 +16,7 @@ class Products {
     required this.categoryId,
     required this.sellerId,
     required this.gst,
+    required this.sellerBoost
   });
 
   String pid;
@@ -26,6 +27,7 @@ class Products {
   String categoryId;
   String sellerId;
   String gst;
+  String sellerBoost ;
 
   factory Products.fromJson(Map<String, dynamic> json) => Products(
         pid: json["pid"].toString(),
@@ -36,6 +38,7 @@ class Products {
         categoryId: json["category_id"].toString(),
         sellerId: json["seller_id"].toString(),
         gst: json["gst"].toString(),
+        sellerBoost: json["sellerBoost"].toString()
       );
 
   Map<String, dynamic> toJson() => {
@@ -47,5 +50,6 @@ class Products {
         "category_id": categoryId,
         "seller_id": sellerId,
         "gst": gst,
+        "sellerBoost": sellerBoost
       };
 }

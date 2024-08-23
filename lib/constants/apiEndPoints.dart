@@ -89,4 +89,8 @@ class ApiEndPoints {
 
   //dhanush
   static String get_liked_product = "liked_product_retrieve.php/" ;
+  static String add_user_history = "user_history.php/" ;
+  static String update_sales = "update_sales.php/" ;
+  static String get_sales = "get_sales.php/" ;
+  static String update_seller_boost = "update_seller_boost.php/" ;
 }

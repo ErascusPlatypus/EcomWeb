@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:ecommerce_int2/app/user_and_seller/model/user.dart';
 import 'package:ecommerce_int2/app/user_and_seller/view/profile_page_content/edit_item.dart';
 import 'package:ecommerce_int2/app/user_and_seller/view/seller_a_order_page/seller_a_order_page.dart';
@@ -7,7 +9,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
+import '../../../../constants/apiEndPoints.dart';
 import '../../../../main.dart';
 import '../../controller/userController.dart';
 import '../../controller/userProductController.dart';
@@ -25,7 +29,7 @@ class _SellerDashboardState extends State<SellerDashboard>
     with TickerProviderStateMixin {
   String name = '';
   String email = '';
-
+  String totalOrders = '' ;
   List<User> users = [];
 
   getUsers() async {
@@ -39,8 +43,34 @@ class _SellerDashboardState extends State<SellerDashboard>
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       await getUsers();
+      await _fetchTotalOrders();
     });
     super.initState();
+  }
+
+  Future<void> _fetchTotalOrders() async {
+    final url = Uri.parse('https://yourdomain.com/get_total_orders.php');
+    try {
+      var response = await http.post(
+          Uri.parse(ApiEndPoints.baseURL+ApiEndPoints.get_sales), body: {
+        'seller_id': '2',
+      });
+
+      if (response.statusCode == 200) {
+        final responseData = json.decode(response.body);
+        if (responseData['success']) {
+          setState(() {
+            totalOrders = responseData['total_orders'];
+          });
+        } else {
+          print('Failed to fetch total orders');
+        }
+      } else {
+        print('Server error');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
   }
 
   Future<bool> _onWillPop() async {
@@ -164,7 +194,7 @@ class _SellerDashboardState extends State<SellerDashboard>
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  '105',
+                                  totalOrders.toString(),
                                   style: CommonController.primaryTitleBlack
                                       .copyWith(
                                           color: Colors.white70, fontSize: 32),

@@ -1,7 +1,10 @@
 import 'dart:convert';
 
 import 'package:ecommerce_int2/app/user_and_seller/model/buy_now/buy_now.dart';
+import 'package:ecommerce_int2/app/user_and_seller/view/payment/PhonePayPayment.dart';
+import 'package:ecommerce_int2/app/user_and_seller/view/payment/checkout_page.dart';
 import 'package:ecommerce_int2/app/user_and_seller/view/payment/payment_page.dart';
+import 'package:ecommerce_int2/app/user_and_seller/view/shop/check_out_page.dart';
 import 'package:ecommerce_int2/constants/apiEndPoints.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -25,7 +28,7 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen> {
   Future<List<BuyNow>> getBuyNowData() async {
     List<BuyNow> buyNowDataList = [];
     try {
-      var res = await http.post(Uri.parse(ApiEndPoints.baseURL+ApiEndPoints.fetch_buy_now_data));
+      var res = await http.post(Uri.parse(ApiEndPoints.baseURL + ApiEndPoints.fetch_buy_now_data));
       if (res.statusCode == 200) {
         var responseBodyOfBuyNowData = jsonDecode(res.body);
         if (responseBodyOfBuyNowData['success'] == true) {
@@ -121,9 +124,7 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen> {
                           child: TextFormField(
                             validator: (value) {
                               if (value!.isEmpty) {
-                                null;
-                              } else {
-                                return "Please Filled The Form";
+                                return "Please Fill The Form";
                               }
                               return null;
                             },
@@ -140,9 +141,7 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen> {
                       TextFormField(
                         validator: (value) {
                           if (value!.isEmpty) {
-                            null;
-                          } else {
-                            return "Please Filled The Form";
+                            return "Please Fill The Form";
                           }
                           return null;
                         },
@@ -157,9 +156,7 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen> {
                       TextFormField(
                         validator: (value) {
                           if (value!.isEmpty) {
-                            null;
-                          } else {
-                            return "Please Filled The Form";
+                            return "Please Fill The Form";
                           }
                           return null;
                         },
@@ -174,16 +171,9 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen> {
                       ElevatedButton(
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
-                              return null;
-                            } else {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) {
-                                  return PaymentPage();
-                                }),
-                              );
-                            }
-                          },
+                                  PhonepePg(context: context, amount: int.parse(widget.product.price)).init();
+                              }
+                            },
                           child: Text(
                             "Continue",
                             style: TextStyle(fontSize: 20),
@@ -192,11 +182,8 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen> {
                   ),
                 );
               } else {
-                Text("No Data");
+                return Text("No Data");
               }
-              return Center(
-                child: CircularProgressIndicator(),
-              );
             }),
       ),
     );

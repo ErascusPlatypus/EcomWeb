@@ -9,6 +9,7 @@ class likedProduct {
   int sellerId;
   double gst;
   String emailId;
+  String sellerBoost ;
 
   likedProduct({
     required this.lid,
@@ -21,6 +22,7 @@ class likedProduct {
    required this.sellerId,
    required this.gst,
    required this.emailId,
+   required this.sellerBoost
   });
 
   factory likedProduct.fromJson(Map<String, dynamic> json) {
@@ -35,6 +37,7 @@ class likedProduct {
       sellerId: int.parse(json['seller_id']),
       gst: double.parse(json['gst']), // Convert to double
       emailId: json['email_id'],
+      sellerBoost: json['sellerBoost']
     );
   }
 

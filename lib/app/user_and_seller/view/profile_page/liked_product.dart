@@ -129,7 +129,9 @@ class _LikedProductState extends State<LikedProduct> {
                               price: _products[index].price.toString(),
                               gst: _products[index].gst.toString(),
                               sellerId:
-                                  _products[index].sellerId.toString()))));
+                                  _products[index].sellerId.toString(),
+                              sellerBoost:
+                                  _products[index].sellerBoost.toString()))));
             },
             // leading: Image.network(_products[index].imageUrl),
             title: Text(_products[index].name),

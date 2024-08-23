@@ -24,6 +24,69 @@ class ProductPage extends StatefulWidget {
 
 class _ProductPageState extends State<ProductPage> {
   var _isAdded = false;
+
+
+  @override
+  void initState() {
+    super.initState();
+    // Call addUserHistory when the page loads
+    addUserHistory(
+      product_id: widget.product.pid,
+      pd_image_url: widget.product.imgurl,
+      product_name: widget.product.name,
+      product_price: int.parse(widget.product.price),
+      categoryId: int.parse(widget.product.categoryId),
+      seller_id: int.parse(widget.product.sellerId),
+      user_email: widget.email,
+    );
+  }
+
+  Future<void> addUserHistory({
+    required String product_id,
+    required String pd_image_url,
+    required String product_name,
+    required int product_price,
+    required int categoryId,
+    required int seller_id,
+    required String user_email,
+  }) async {
+    var url = Uri.parse(ApiEndPoints.baseURL + ApiEndPoints.add_user_history);
+
+    var data = {
+      'user_id': '5',
+      'product_id': product_id,
+      'pd_image_url': pd_image_url,
+      'product_name': product_name,
+      'product_price': product_price,
+      'categoryid': categoryId,
+      'seller_id': seller_id,
+      'user_email': user_email,
+    };
+
+    try {
+      var response = await http.post(url, body: data);
+
+      if (response.statusCode == 200) {
+        final res = jsonDecode(response.body);
+
+        if (res['message'] == "success") {
+          // Optionally provide feedback to the user here
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Added to history")),
+          );
+        }
+
+        print('\n \n\ \n Data inserted \n\n\n ');
+        print('Response: ${response.body}');
+      } else {
+        print('Failed to send data');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -41,7 +104,31 @@ class _ProductPageState extends State<ProductPage> {
       });
     }
 
-//buyNow
+    _updateTotalOrders() async {
+      final url = Uri.parse('https://yourdomain.com/update_orders.php');
+
+      try {
+        var response = await http.post(
+            Uri.parse(ApiEndPoints.baseURL+ApiEndPoints.update_sales), body: {
+          'seller_id': widget.product.sellerId,
+        });
+
+        if (response.statusCode == 200) {
+          final responseData = json.decode(response.body);
+          if (responseData['success']) {
+            print('Order updated successfully');
+          } else {
+            print('Failed to update order');
+          }
+        } else {
+          print('Server error');
+        }
+      } catch (e) {
+        print('Error: $e');
+      }
+    }
+
+    //buyNow
     _buyNow() async {
       try {
         var res = await http.post(
@@ -122,6 +209,7 @@ class _ProductPageState extends State<ProductPage> {
           onTap: () {
             //this is send to placed order and confirm page
             //and the data is saved into db
+            _updateTotalOrders();
             _buyNow();
           },
           child: Center(
