@@ -2,9 +2,6 @@ import 'dart:convert';
 
 import 'package:ecommerce_int2/app/user_and_seller/model/buy_now/buy_now.dart';
 import 'package:ecommerce_int2/app/user_and_seller/view/payment/PhonePayPayment.dart';
-import 'package:ecommerce_int2/app/user_and_seller/view/payment/checkout_page.dart';
-import 'package:ecommerce_int2/app/user_and_seller/view/payment/payment_page.dart';
-import 'package:ecommerce_int2/app/user_and_seller/view/shop/check_out_page.dart';
 import 'package:ecommerce_int2/constants/apiEndPoints.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;

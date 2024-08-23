@@ -5,8 +5,6 @@ import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:phonepe_payment_sdk/phonepe_payment_sdk.dart';
 
-import 'checkout_page.dart';
-
 class PhonepePg {
   int amount;
   BuildContext context;
@@ -49,8 +47,6 @@ class PhonepePg {
     PhonePePaymentSdk.startTransaction(bodyEncoded, callbackURL, checksum, "")
         .then((success) {
       log("Payment success ${success}");
-      Navigator.pushAndRemoveUntil(context,
-          MaterialPageRoute(builder: (a) => CheckoutPage()), (e) => false);
     }).catchError((error) {
       log("Payment failed ${error}");
     });
