@@ -10,7 +10,7 @@ import 'package:http/http.dart' as http;
 import '../../controller/userProductController.dart';
 import '../../model/products.dart';
 import '../rating/rating_page.dart';
-import '../user_place_order/place_order_and_confom.dart';
+import '../user_place_order/place_order_and_confirm.dart';
 import 'components/product_display.dart';
 
 class ProductPage extends StatefulWidget {
