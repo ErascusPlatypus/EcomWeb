@@ -93,4 +93,6 @@ class ApiEndPoints {
   static String update_sales = "update_sales.php/" ;
   static String get_sales = "get_sales.php/" ;
   static String update_seller_boost = "update_seller_boost.php/" ;
+  static String store_user_address = "store_user_address.php/" ;
+  static String fetch_user_address = "fetch_user_address.php/" ;
 }
