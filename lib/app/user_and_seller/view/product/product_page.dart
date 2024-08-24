@@ -105,8 +105,6 @@ class _ProductPageState extends State<ProductPage> {
     }
 
     _updateTotalOrders() async {
-      final url = Uri.parse('https://yourdomain.com/update_orders.php');
-
       try {
         var response = await http.post(
             Uri.parse(ApiEndPoints.baseURL+ApiEndPoints.update_sales), body: {
