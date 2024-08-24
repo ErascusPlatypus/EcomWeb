@@ -11,6 +11,7 @@ import '../../../user_and_seller/view/profile_page_content/restrict_user.dart';
 import '../../../user_and_seller/view/profile_page_content/restricted_seller.dart';
 import '../../../user_and_seller/view/profile_page_content/restricted_user.dart';
 import '../../../user_and_seller/view/settings/settings_page.dart';
+import '../others/all_orders.dart';
 import 'extra_charges_admin.dart';
 
 class ProfilePageAdmin extends StatelessWidget {
@@ -162,7 +163,7 @@ class ProfilePageAdmin extends StatelessWidget {
                     ),
                     trailing: Icon(Icons.chevron_right, color: yellow),
                     onTap: () => Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (_) => ContactsList())),
+                        .push(MaterialPageRoute(builder: (_) => OrdersPage())),
                   ),
                   Divider(),
                   ListTile(
