@@ -105,8 +105,6 @@ class _ProductPageState extends State<ProductPage> {
     }
 
     _updateTotalOrders() async {
-      final url = Uri.parse('https://yourdomain.com/update_orders.php');
-
       try {
         var response = await http.post(
             Uri.parse(ApiEndPoints.baseURL+ApiEndPoints.update_sales), body: {
@@ -127,6 +125,40 @@ class _ProductPageState extends State<ProductPage> {
         print('Error: $e');
       }
     }
+
+    // _updateAdminOrders() async {
+    //   try {
+    //     var res = await http.post(
+    //       Uri.parse(ApiEndPoints.baseURL + ApiEndPoints.fetch_all_orders),
+    //       body: {
+    //         "userId": "5",
+    //         "userEmail": widget.email,
+    //         "productId": widget.product.pid,
+    //         "productName": widget.product.name,
+    //         "productDescription": widget.product.description,
+    //         "productPrice": widget.product.price,
+    //         "pdImageUrl": widget.product.imgurl,
+    //         "sellerId": widget.product.sellerId,
+    //       },
+    //     );
+    //     if (res.statusCode == 200) {
+    //       var jsonResponse = jsonDecode(res.body);
+    //       if (jsonResponse['status'] == 'success') {
+    //         // Handle success
+    //         print("Order updated successfully.");
+    //       } else {
+    //         // Handle error
+    //         print("Error: ${jsonResponse['message']}");
+    //       }
+    //     } else {
+    //       // Handle server error
+    //       print("Server error: ${res.statusCode}");
+    //     }
+    //   } catch (e) {
+    //     // Handle other errors
+    //     print("Error: $e");
+    //   }
+    // }
 
     //buyNow
     _buyNow() async {

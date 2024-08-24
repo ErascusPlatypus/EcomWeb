@@ -1,4 +1,3 @@
-// recreated login pages - Dhanush
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
@@ -21,11 +20,10 @@ class AdminLoginPage extends StatefulWidget {
 
 class _AdminLoginPageState extends State<AdminLoginPage> {
   TextEditingController email = TextEditingController(text: 'sarthak@k.com');
-
   TextEditingController password = TextEditingController(text: '12345678');
+
   @override
   void dispose() {
-    // TODO: implement dispose
     email.dispose();
     password.dispose();
     super.dispose();
@@ -35,116 +33,115 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
+
     return SafeArea(
-      child: Scaffold(
-        body: SingleChildScrollView(
-          child: Container(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Image(
-                  image: AssetImage('assets/minions.jpg'),
-                  height: size.height * 0.2,
-                ),
-                SizedBox(height: 20.0),
-                Text(
-                  'Welcome Back,',
-                  style: TextStyle(
-                    fontSize: 30.0,
-                    fontWeight: FontWeight.w700,
-                    fontFamily: 'OpenSans',
-                    color: Colors.orangeAccent,
+        child: Scaffold(
+          body: SingleChildScrollView(
+            child: Container(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Image(
+                    image: AssetImage('assets/minions.jpg'),
+                    height: size.height * 0.2,
                   ),
-                ),
-                SizedBox(height: 10.0),
-                Text(
-                  'Login to your account using \nyour account number',
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    color: Colors.yellow[700],
-                    fontWeight: FontWeight.w600,
+                  SizedBox(height: 20.0),
+                  Text(
+                    'Welcome Back,',
+                    style: TextStyle(
+                      fontSize: 30.0,
+                      fontWeight: FontWeight.w700,
+                      fontFamily: 'OpenSans',
+                      color: Colors.orangeAccent,
+                    ),
                   ),
-                ),
-                SizedBox(height: 25.0),
-                Form(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      TextField(
-                        controller: email,
-                        keyboardType: TextInputType.emailAddress,
-                        style: TextStyle(color: Colors.black12),
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.person_outline_outlined, color: Colors.yellow[700]),
-                          labelText: 'Email',
-                          labelStyle: TextStyle(color: Colors.yellow[700]),
-                          //hintText: 'example@gmail.com',
-                          hintStyle: TextStyle(color: Colors.black12),
-                          border: OutlineInputBorder(),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Colors.yellow[700]!, width: 2.0),
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 20.0),
-                      TextField(
-                        controller: password,
-                        obscureText: true,
-                        style: TextStyle(color: Colors.black12),
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.lock, color: Colors.yellow[700]),
-                          labelText: 'Password',
-                          labelStyle: TextStyle(color: Colors.yellow[700]),
-                          //hintText: '12345678',
-                          hintStyle: TextStyle(color: Colors.grey),
-                          border: OutlineInputBorder(),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.yellow[700]!, width: 2.0),
-                          ),
-                          suffixIcon: IconButton(
-                            onPressed: () {},
-                            icon: Icon(Icons.remove_red_eye_rounded, color: Colors.yellow[700]),
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 20.0),
-                      Align(
-                        alignment: Alignment.center,
-                        child: TextButton(
-                          style: TextButton.styleFrom(
-                            padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 80.0),
-                            backgroundColor: Colors.yellow[700],
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0),
+                  SizedBox(height: 10.0),
+                  Text(
+                    'Login to your account using \nyour account number',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      color: Colors.yellow[700],
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  SizedBox(height: 25.0),
+                  Form(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextField(
+                          controller: email,
+                          keyboardType: TextInputType.emailAddress,
+                          style: TextStyle(color: Colors.black12),
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.person_outline_outlined, color: Colors.yellow[700]),
+                            labelText: 'Email',
+                            labelStyle: TextStyle(color: Colors.yellow[700]),
+                            hintStyle: TextStyle(color: Colors.black12),
+                            border: OutlineInputBorder(),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.yellow[700]!, width: 2.0),
                             ),
                           ),
-                          onPressed: () {
-                            userLogin() ;
-                          },
-                          child: Text(
-                            'LOGIN (Admin) ',
-                            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(height: 20.0),
+                        TextField(
+                          controller: password,
+                          obscureText: true,
+                          style: TextStyle(color: Colors.black12),
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.lock, color: Colors.yellow[700]),
+                            labelText: 'Password',
+                            labelStyle: TextStyle(color: Colors.yellow[700]),
+                            hintStyle: TextStyle(color: Colors.grey),
+                            border: OutlineInputBorder(),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.yellow[700]!, width: 2.0),
+                            ),
+                            suffixIcon: IconButton(
+                              onPressed: () {},
+                              icon: Icon(Icons.remove_red_eye_rounded, color: Colors.yellow[700]),
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 20.0,),
-                      Align(
-                        alignment: Alignment.center,
-                        child: TextButton(
-                          onPressed: () {}, child: const Text('Forgot Password?', style: TextStyle(fontWeight: FontWeight.w700, fontFamily: 'OpenSans', fontSize: 16.0),),
+                        SizedBox(height: 20.0),
+                        Align(
+                          alignment: Alignment.center,
+                          child: TextButton(
+                            style: TextButton.styleFrom(
+                              padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 80.0),
+                              backgroundColor: Colors.yellow[700],
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                            ),
+                            onPressed: () {
+                              userLogin();
+                            },
+                            child: Text(
+                              'LOGIN (Admin) ',
+                              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+                            ),
+                          ),
                         ),
-                      ),
-                    ],
+                        const SizedBox(height: 20.0,),
+                        Align(
+                          alignment: Alignment.center,
+                          child: TextButton(
+                            onPressed: () {},
+                            child: const Text('Forgot Password?', style: TextStyle(fontWeight: FontWeight.w700, fontFamily: 'OpenSans', fontSize: 16.0)),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
-      ),
-    );
+      );
   }
 
   void userLogin() async {
