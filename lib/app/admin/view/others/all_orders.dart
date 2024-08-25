@@ -92,7 +92,7 @@ class _OrdersPageState extends State<OrdersPage> {
                 return Card(
                   margin: EdgeInsets.all(10.0),
                   child: ListTile(
-                    leading: SizedBox(width: 60, child: Image.network(order.pdImageUrl, fit: BoxFit.cover)),
+                    leading: SizedBox(width: 60, child: _buildImage(order.pdImageUrl),),
                     title: Text(order.productName),
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -110,4 +110,12 @@ class _OrdersPageState extends State<OrdersPage> {
       ),
     );
   }
+  Widget _buildImage(String imageUrl) {
+    if (imageUrl.startsWith('http') || imageUrl.startsWith('https')) {
+      return Image.network(imageUrl, fit: BoxFit.cover);
+    } else {
+      return Image.asset(imageUrl.replaceFirst('assets/', 'assets/'), fit: BoxFit.cover);
+    }
+  }
 }
+
