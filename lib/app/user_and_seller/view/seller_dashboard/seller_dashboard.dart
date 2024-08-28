@@ -49,7 +49,6 @@ class _SellerDashboardState extends State<SellerDashboard>
   }
 
   Future<void> _fetchTotalOrders() async {
-    final url = Uri.parse('https://yourdomain.com/get_total_orders.php');
     try {
       var response = await http.post(
           Uri.parse(ApiEndPoints.baseURL+ApiEndPoints.get_sales), body: {
@@ -168,7 +167,7 @@ class _SellerDashboardState extends State<SellerDashboard>
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-      
+
                     Text("Add Items",
                     style: TextStyle(fontSize: 20,
                     height: 3),),
@@ -328,11 +327,22 @@ class _SellerDashboardState extends State<SellerDashboard>
                                   children: (snapshot.data! as List<Products>)
                                       .map(
                                         (product) => InkWell(
-                                          onTap: () => launch(
-                                              context, EditItem.routeName, {
-                                            "product": product,
-                                            "email": email
-                                          }),
+                                          // onTap: () => launch(
+                                          //     context, EditItem.routeName, {
+                                          //   "product": product,
+                                          //   "email": email
+                                          // }),
+                                          onTap: () async {
+                                            final result = launch(
+                                                context, EditItem.routeName, {
+                                              "product": product,
+                                              "email": email
+                                            });
+
+                                            if (result == true) {
+                                              _fetchTotalOrders();
+                                            }
+                                          },
                                           child: Card(
                                             elevation: 10,
                                             child: Center(

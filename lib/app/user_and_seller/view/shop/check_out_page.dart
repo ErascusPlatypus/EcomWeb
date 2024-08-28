@@ -30,6 +30,7 @@ class CheckOutPage extends StatefulWidget {
 
 class _CheckOutPageState extends State<CheckOutPage> {
   Products? _product;
+
   @override
   void initState() {
     super.initState();
@@ -43,22 +44,16 @@ class _CheckOutPageState extends State<CheckOutPage> {
         _product = value[0];
         for (int index = 0; index < value.length; index++) {
           final price = double.parse(value[index].price);
-          if (charges.isNotEmpty) {
-            final service =
-                double.parse(charges[0].serviceCharge).toStringAsFixed(2);
-            final gst = price * (double.parse(value[index].gst) / 100);
-            final transFee =
-                price * (double.parse(charges[0].transactionFee) / 100);
-            final total1 = (price + gst + transFee + double.parse(service));
-            if (!widget.grandTotal.containsKey(value[index].pid)) {
-              widget.grandTotal.addAll({value[index].pid: total1});
-            }
-            final total = total1.toStringAsFixed(2);
+          final gst = price * (double.parse(value[index].gst) / 100);
+          final transFee = price * (double.parse(charges[0].transactionFee) / 100);
+          final service = double.parse(charges[0].serviceCharge);
+          final total1 = price + gst + transFee + service;
+
+          if (!widget.grandTotal.containsKey(value[index].pid)) {
+            widget.grandTotal.addAll({value[index].pid: total1});
           }
         }
       }
-      //////print((widget.grandTotal.values.reduce((sum, element) => sum + element)));
-      //////print(widget.grandTotal);
     });
   }
 
@@ -83,13 +78,11 @@ class _CheckOutPageState extends State<CheckOutPage> {
         launch(context, AddAddressPage.routeName, {
           "product": _product,
           "grandTotal": (widget.grandTotal.values.reduce(
-            (sum, element) {
+                (sum, element) {
               return sum + element;
             },
           )).toStringAsFixed(2)
         });
-        // Navigator.of(context)
-        //   .push(MaterialPageRoute(builder: (_) => AddAddressPage()));
       },
       child: Container(
         height: 80,
@@ -172,7 +165,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                               color: yellow,
                               child: Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Text(
                                     'Subtotal',
@@ -196,35 +189,24 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                 physics: ClampingScrollPhysics(),
                                 shrinkWrap: true,
                                 itemBuilder: (_, index) {
-                                  final price =
-                                      double.parse(snapshot.data![index].price);
-                                  final service =
-                                      double.parse(charges.serviceCharge)
-                                          .toStringAsFixed(2);
-                                  final gst = price *
-                                      (double.parse(snapshot.data![index].gst) /
-                                          100);
-                                  final transFee = price *
-                                      (double.parse(charges.transactionFee) /
-                                          100);
-                                  final total1 = (price +
-                                      gst +
-                                      transFee +
-                                      double.parse(service));
-                                  if (!widget.grandTotal
-                                      .containsKey(snapshot.data[index].pid)) {
-                                    widget.grandTotal.addAll(
-                                        {snapshot.data[index].pid: total1});
+                                  final price = double.parse(snapshot.data![index].price);
+                                  final gst = price * (double.parse(snapshot.data![index].gst) / 100);
+                                  final transFee = price * (double.parse(charges.transactionFee) / 100);
+                                  final service = double.parse(charges.serviceCharge);
+                                  final total1 = price + gst + transFee + service;
+
+                                  if (!widget.grandTotal.containsKey(snapshot.data[index].pid)) {
+                                    widget.grandTotal.addAll({snapshot.data[index].pid: total1});
                                   }
+
                                   final total = total1.toStringAsFixed(2);
-                                  //////print((widget.grandTotal.values.reduce((sum, element) => sum + element)));
-                                  //////print(widget.grandTotal);
+
                                   return ShopItemList(
                                     snapshot.data[index],
                                     service,
                                     gst,
                                     transFee,
-                                    total,
+                                    double.parse(total),
                                     onRemove: () => removeFromCart(
                                         email, snapshot.data[index].pid),
                                   );
@@ -236,7 +218,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                               padding: const EdgeInsets.all(16.0),
                               child: Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     'Grand Total:',
@@ -246,8 +228,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                         fontWeight: FontWeight.bold),
                                   ),
                                   Text(
-                                    (widget.grandTotal.values
-                                        .reduce((sum, element) {
+                                    (widget.grandTotal.values.reduce((sum, element) {
                                       return sum + element;
                                     })).toStringAsFixed(2),
                                     style: TextStyle(
@@ -258,42 +239,18 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                 ],
                               ),
                             ),
-                            // Padding(
-                            //   padding: const EdgeInsets.all(16.0),
-                            //   child: Text(
-                            //     'Payment',
-                            //     style: TextStyle(
-                            //         fontSize: 20,
-                            //         color: darkGrey,
-                            //         fontWeight: FontWeight.bold),
-                            //   ),
-                            // ),
-                            // SizedBox(
-                            //   height: 250,
-                            //   child: Swiper(
-                            //     itemCount: 2,
-                            //     itemBuilder: (_, index) {
-                            //       return CreditCard();
-                            //     },
-                            //     scale: 0.8,
-                            //     controller: swiperController,
-                            //     viewportFraction: 0.6,
-                            //     loop: false,
-                            //     fade: 0.7,
-                            //   ),
-                            // ),
                             SizedBox(height: 24),
                             Center(
                                 child: Padding(
-                              padding: EdgeInsets.only(
-                                  bottom:
+                                  padding: EdgeInsets.only(
+                                      bottom:
                                       MediaQuery.of(context).padding.bottom == 0
                                           ? 20
                                           : MediaQuery.of(context)
-                                              .padding
-                                              .bottom),
-                              child: checkOutButton,
-                            ))
+                                          .padding
+                                          .bottom),
+                                  child: checkOutButton,
+                                ))
                           ],
                         ),
                       );
@@ -341,7 +298,7 @@ class Scroll extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return false;
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true;
   }
 }

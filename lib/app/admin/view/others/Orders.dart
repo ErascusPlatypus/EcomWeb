@@ -8,6 +8,7 @@ class Order {
   final String sellerId;
   final String userEmail;
   final String productDescription;
+  final String orderDate ;
 
   Order({
     required this.id,
@@ -19,6 +20,7 @@ class Order {
     required this.sellerId,
     required this.userEmail,
     required this.productDescription,
+    required this.orderDate
   });
 
   factory Order.fromJson(Map<String, dynamic> json) {
@@ -32,6 +34,7 @@ class Order {
       sellerId: json['seller_id'],
       userEmail: json['user_email'],
       productDescription: json['product_description'],
+      orderDate: json['order_date']
     );
   }
 }

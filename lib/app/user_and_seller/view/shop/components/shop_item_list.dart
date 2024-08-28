@@ -74,7 +74,7 @@ class _ShopItemListState extends State<ShopItemList> {
                                           top: 15.0, bottom: 8.0),
                                       child: Row(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        MainAxisAlignment.spaceBetween,
                                         children: <Widget>[
                                           ColorOption(Colors.red),
                                           GestureDetector(
@@ -89,7 +89,7 @@ class _ShopItemListState extends State<ShopItemList> {
                                                   style: TextStyle(
                                                       color: darkGrey,
                                                       fontWeight:
-                                                          FontWeight.bold,
+                                                      FontWeight.bold,
                                                       fontSize: 17.0),
                                                 ),
                                                 Icon(Icons.arrow_drop_down),

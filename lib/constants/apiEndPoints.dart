@@ -96,4 +96,5 @@ class ApiEndPoints {
   static String store_user_address = "store_user_address.php/" ;
   static String fetch_user_address = "fetch_user_address.php/" ;
   static String fetch_all_orders = "get_all_orders.php/" ;
+  static String fetch_orders_seller = "fetch_orders_seller.php/" ;
 }

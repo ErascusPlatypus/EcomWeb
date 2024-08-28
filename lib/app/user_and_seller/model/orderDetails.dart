@@ -78,7 +78,8 @@ class OrderDetails {
       cash_on_delivery: json['cash_on_delivery'] ?? '1',
       deliveryDate: json['delivery_date'] ?? '',
       driver_status: json['driver_status'] ?? '',
-      orderDate: json['order_date'] ?? '');
+      orderDate: json['order_date'] ?? ''
+  );
 
   Map<String, dynamic> toJson() => {
         "id": id,
