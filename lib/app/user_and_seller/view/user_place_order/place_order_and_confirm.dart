@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:ecommerce_int2/app/user_and_seller/model/buy_now/buy_now.dart';
+import 'package:ecommerce_int2/app/user_and_seller/view/main/main_page.dart';
 import 'package:ecommerce_int2/app/user_and_seller/view/payment/PhonePayPayment.dart';
 import 'package:ecommerce_int2/constants/apiEndPoints.dart';
 import 'package:flutter/material.dart';
@@ -248,7 +249,14 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen> {
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
                                 _submitForm();
-                                PhonepePg(context: context, amount: int.parse(widget.product.price)).init();
+
+                                print(' HEREEEEEEEEEEEEEEEEEEEEEEEEEEEE ') ;
+                                PhonepePg(
+                                    context: context,
+                                    amount: int.parse(widget.product.price),
+                                    product: widget.product,
+                                    address: "${_flatNumberController.text},${_streetController.text}\n${_postalCodeController.text}",
+                                ).init();
                               }
                             },
                             style: ElevatedButton.styleFrom(

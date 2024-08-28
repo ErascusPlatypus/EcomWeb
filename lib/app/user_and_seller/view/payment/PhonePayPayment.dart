@@ -5,11 +5,20 @@ import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:phonepe_payment_sdk/phonepe_payment_sdk.dart';
 
+import '../../model/products.dart';
+
 class PhonepePg {
   int amount;
   BuildContext context;
+  Products product ;
+  var address ;
 
-  PhonepePg({required this.context, required this.amount});
+  PhonepePg({
+    required this.context,
+    required this.amount,
+    required this.product,
+    required this.address});
+
   String marchentId = "PGTESTPAYUAT86";
   String salt = "96434309-7796-489d-8924-ab56988a6076";
   int saltIndex = 1;
@@ -47,6 +56,7 @@ class PhonepePg {
     PhonePePaymentSdk.startTransaction(bodyEncoded, callbackURL, checksum, "")
         .then((success) {
       log("Payment success ${success}");
+
     }).catchError((error) {
       log("Payment failed ${error}");
     });

@@ -4,6 +4,7 @@ import 'package:ecommerce_int2/helper/base.dart';
 import 'package:ecommerce_int2/main.dart';
 import 'package:flutter/material.dart';
 
+import '../payment/PhonePayPayment.dart';
 import 'address_form.dart';
 
 class AddAddressPage extends StatelessWidget {
@@ -22,16 +23,23 @@ class AddAddressPage extends StatelessWidget {
     Widget finishButton = InkWell(
       onTap: () {
         if (_formKey.currentState?.validate() == true)
-          launch(
-            context,
-            SelectPaymentMethod.routeName,
-            {
-              "product": data,
-              "grandTotal": grandTotal,
-              "address":
-                  "${flatNo.text},${street.text}\n${nameOnCard.text},${postCode.text}"
-            },
-          );
+          // launch(
+          //   context,
+          //   SelectPaymentMethod.routeName,
+          //   {
+          //     "product": data,
+          //     "grandTotal": grandTotal,
+          //     "address":
+          //         "${flatNo.text},${street.text}\n${nameOnCard.text},${postCode.text}"
+          //   },
+          // );
+
+          PhonepePg(
+              context: context,
+              amount: (double.parse(grandTotal)).toInt(),
+              product: data,
+              address: "${flatNo.text},${street.text}\n${nameOnCard.text},${postCode.text}"
+          ).init();
       },
       child: Container(
         height: 80,
@@ -123,15 +131,22 @@ class AddAddressPage extends StatelessWidget {
                       ),
                       InkWell(
                         onTap: () {
-                          launch(
-                            context,
-                            SelectPaymentMethod.routeName,
-                            {
-                              "product": data,
-                              'address': 'SWork place',
-                              "grandTotal": grandTotal,
-                            },
-                          ); // launch(context, PaymentPage.routeName, {});
+                          PhonepePg(
+                              context: context,
+                              amount: (double.parse(grandTotal)).toInt(),
+                              product: data,
+                              address: "${flatNo.text},${street.text}\n${nameOnCard.text},${postCode.text}"
+                          ).init();
+                          // launch(
+                          //   context,
+                          //   SelectPaymentMethod.routeName,
+                          //   {
+                          //     "product": data,
+                          //     'address': 'SWork place',
+                          //     "grandTotal": grandTotal,
+                          //   },
+                          // );
+                          // launch(context, PaymentPage.routeName, {});
                           // Navigator.of(context).push(
                           //   MaterialPageRoute(
                           //     builder: (_) => PaymentPage(),

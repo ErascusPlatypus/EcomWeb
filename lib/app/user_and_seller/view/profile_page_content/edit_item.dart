@@ -23,22 +23,22 @@ class _EditItemState extends State<EditItem> {
   File? selectedImage;
   String status = '';
   String base64Image = "";
-  late File? tmpFile;
+  File? tmpFile;
   String errMessage = 'Error Uploading Image';
   String fileName = "";
-  String sellerBoost = "Inactive" ;
+  String sellerBoost = "Inactive";
 
-  //TextController to read text entered in text field
-  var name1 = new TextEditingController();
-  var description1 = new TextEditingController();
-  var price1 = new TextEditingController();
-  var imgurl1 = new TextEditingController();
-  var boost1 = new TextEditingController();
+  // TextControllers to read text entered in text fields
+  final TextEditingController name1 = TextEditingController();
+  final TextEditingController description1 = TextEditingController();
+  final TextEditingController price1 = TextEditingController();
+  final TextEditingController imgurl1 = TextEditingController();
+  final TextEditingController boost1 = TextEditingController();
 
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+
   @override
   void dispose() {
-    // TODO: implement dispose
     name1.dispose();
     description1.dispose();
     price1.dispose();
@@ -47,7 +47,7 @@ class _EditItemState extends State<EditItem> {
     super.dispose();
   }
 
-  // @override
+  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     // Initialize the values with widget.product
@@ -56,7 +56,7 @@ class _EditItemState extends State<EditItem> {
       imgurl1.text = product.imgurl;
       name1.text = product.name;
       description1.text = product.description;
-      price1.text = product.price;
+      price1.text = product.price.toString();
     }
   }
 
@@ -77,7 +77,6 @@ class _EditItemState extends State<EditItem> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     final product = context.extra['product'];
@@ -85,11 +84,15 @@ class _EditItemState extends State<EditItem> {
 
     DropdownMenuItem<String> buildMenuItem(String item) => DropdownMenuItem(
         value: item,
-        child: Text(item,
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 17,
-                color: Colors.black)));
+        child: Text(
+          item,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 17,
+            color: Colors.black,
+          ),
+        ));
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Edit Item'),
@@ -97,7 +100,9 @@ class _EditItemState extends State<EditItem> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-              image: AssetImage('assets/login1.jpg'), fit: BoxFit.cover),
+            image: AssetImage('assets/login1.jpg'),
+            fit: BoxFit.cover,
+          ),
         ),
         child: Scaffold(
           backgroundColor: Colors.white,
@@ -114,8 +119,7 @@ class _EditItemState extends State<EditItem> {
                       itemlist.add(snapshot.data[i]);
                       itemlist2.add(itemlist[i].category);
                     }
-                    print(itemlist2);
-                    category = itemlist2[int.parse(product.categoryId) - 1];
+                    category = itemlist2[int.parse(product!.categoryId) - 1];
                     return SingleChildScrollView(
                       child: Container(
                         padding: EdgeInsets.only(top: 2),
@@ -127,12 +131,10 @@ class _EditItemState extends State<EditItem> {
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  SizedBox(
-                                    height: 15,
-                                  ),
+                                  SizedBox(height: 15),
                                   Padding(
-                                    padding: const EdgeInsets.only(
-                                        bottom: 15, left: 10, right: 10),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 15, horizontal: 10),
                                     child: TextFormField(
                                       controller: name1,
                                       keyboardType: TextInputType.text,
@@ -144,14 +146,11 @@ class _EditItemState extends State<EditItem> {
                                         }
                                         return null;
                                       },
-                                      onSaved: (String? value) {
-                                        name = value!;
-                                      },
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.only(
-                                        bottom: 15, left: 10, right: 10),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 15, horizontal: 10),
                                     child: TextFormField(
                                       controller: description1,
                                       keyboardType: TextInputType.text,
@@ -163,14 +162,11 @@ class _EditItemState extends State<EditItem> {
                                         }
                                         return null;
                                       },
-                                      onSaved: (String? value) {
-                                        description = value!;
-                                      },
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.only(
-                                        bottom: 15, left: 10, right: 10),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 15, horizontal: 10),
                                     child: TextFormField(
                                       controller: price1,
                                       keyboardType: TextInputType.number,
@@ -182,39 +178,33 @@ class _EditItemState extends State<EditItem> {
                                         }
                                         return null;
                                       },
-                                      onSaved: (String? value) {
-                                        price = value as double;
-                                      },
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.only(
-                                      bottom: 10,
-                                      left: 10,
-                                      right: 10,
-                                    ),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10, horizontal: 10),
                                     child: DropdownButtonFormField<String>(
-                                      hint: Text("select category"),
-                                      value: itemlist2[
-                                      int.parse(product.categoryId) - 1],
+                                      hint: Text("Select category"),
+                                      value: category,
                                       dropdownColor: Colors.blue[100],
                                       elevation: 5,
                                       decoration: InputDecoration(
-                                          enabledBorder: OutlineInputBorder(
-                                              borderRadius:
-                                              BorderRadius.circular(25),
-                                              borderSide: BorderSide(
-                                                  width: 1.5,
-                                                  color: Colors.blue))),
-                                      items:
-                                      itemlist2.map(buildMenuItem).toList(),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderRadius:
+                                          BorderRadius.circular(25),
+                                          borderSide: BorderSide(
+                                              width: 1.5,
+                                              color: Colors.blue),
+                                        ),
+                                      ),
+                                      items: itemlist2.map(buildMenuItem).toList(),
                                       onChanged: (value) =>
                                           setState(() => category = value),
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.only(
-                                        bottom: 15, left: 10, right: 10),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 15, horizontal: 10),
                                     child: TextFormField(
                                       controller: imgurl1,
                                       keyboardType: TextInputType.text,
@@ -226,29 +216,22 @@ class _EditItemState extends State<EditItem> {
                                         }
                                         return null;
                                       },
-                                      onSaved: (String? value) {
-                                        imgurl = value!;
-                                      },
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.only(
-                                        bottom: 15, left: 10, right: 10),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 15, horizontal: 10),
                                     child: TextFormField(
                                       controller: boost1,
                                       keyboardType: TextInputType.text,
                                       decoration: buildInputDecoration(
                                           Icons.rocket_launch_sharp, "Boost"),
-                                      validator: (String? value) {
-                                        if (value!.isEmpty) {
-                                          return 'Inactive';
-                                        }
-                                        return null;
-                                      },
                                       onSaved: (String? value) {
-                                        sellerBoost = value!;
-                                        int pid = 32;
-                                        updateSellerBoost(pid, sellerBoost);
+                                        sellerBoost = value ?? "Inactive";
+                                        if (product != null) {
+                                          updateSellerBoost(
+                                              int.parse(product.pid), sellerBoost);
+                                        }
                                       },
                                     ),
                                   ),
@@ -258,22 +241,20 @@ class _EditItemState extends State<EditItem> {
                                     child: ElevatedButton(
                                       onPressed: () {
                                         if (_formkey.currentState!.validate()) {
+                                          _formkey.currentState!.save();
                                           updateItemNow(
-                                              int.parse(product.pid), email);
-                                          return;
+                                              int.parse(product!.pid), email);
+                                          Navigator.pop(context, true);
                                         }
                                       },
                                       style: ElevatedButton.styleFrom(
                                         foregroundColor: Colors.white,
-                                        backgroundColor:
-                                        Colors.blue, // Set the text color
+                                        backgroundColor: Colors.blue,
                                       ),
                                       child: Text('Update Item'),
                                     ),
                                   ),
-                                  SizedBox(
-                                    height: 10.0,
-                                  ),
+                                  SizedBox(height: 10.0),
                                 ],
                               ),
                             ),
@@ -282,7 +263,9 @@ class _EditItemState extends State<EditItem> {
                       ),
                     );
                   }
-                  return CircularProgressIndicator.adaptive();
+                  return Center(
+                    child: CircularProgressIndicator.adaptive(),
+                  );
                 },
               ),
             ],
@@ -292,21 +275,9 @@ class _EditItemState extends State<EditItem> {
     );
   }
 
-  startUpload() {
-    setStatus('Uploading Image...');
-    // ignore: unnecessary_null_comparison
-    if (null == tmpFile) {
-      setStatus(errMessage);
-      return;
-    }
-    setState(() {
-      fileName = tmpFile!.path.split('/').last;
-    });
-  }
-
   Future updateItemNow(int id, String email) async {
     var postData = {
-      'pid': id,
+      'pid': id.toString(),
       'imageurl': imgurl1.text,
       'name': name1.text,
       'description': description1.text,
@@ -316,38 +287,31 @@ class _EditItemState extends State<EditItem> {
     var data = await UserController.updateItem(postData);
     if (data == "success") {
       print(data);
-      showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              title: Text('Product Updated'),
-            );
-          });
-    } else if (data == "restriced") {
-      showDialog(
-          context: context,
-          builder: (context) {
-            Future.delayed(Duration(seconds: 3), () {
-              Navigator.of(context)
-                  .pushNamed(ProfilePageSeller.routeName, arguments: email);
-            });
-            return AlertDialog(
-              title: Text('You are restricted!'),
-            );
-          });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Product Updated'),
+          backgroundColor: Colors.green,
+          duration: Duration(seconds: 3),
+        ),
+      );
+    } else if (data == "restricted") {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('You are restricted!'),
+          backgroundColor: Colors.red,
+          duration: Duration(seconds: 3),
+        ),
+      );
+      Future.delayed(Duration(seconds: 3), () {
+        Navigator.of(context)
+            .pushNamed(ProfilePageSeller.routeName, arguments: email);
+      });
     }
   }
 
-  setStatus(String message) {
+  void setStatus(String message) {
     setState(() {
       status = message;
     });
   }
-
-  RaisedButton(
-      {Color? color,
-        required Null Function() onPressed,
-        required RoundedRectangleBorder shape,
-        required Color textColor,
-        required Text child}) {}
 }

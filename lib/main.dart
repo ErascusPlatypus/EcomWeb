@@ -10,6 +10,7 @@ import 'package:ecommerce_int2/app/user_and_seller/view/auth/registration-page-o
 import 'package:ecommerce_int2/app/user_and_seller/view/auth/welcome_back-page-owner.dart';
 import 'package:ecommerce_int2/app/user_and_seller/view/auth/welcome_back_page.dart';
 import 'package:ecommerce_int2/app/user_and_seller/view/checkout/select_payment_method.dart';
+import 'package:ecommerce_int2/app/user_and_seller/view/order_sucess/order_success.dart';
 import 'package:ecommerce_int2/app/user_and_seller/view/payment/payment_page.dart';
 import 'package:ecommerce_int2/app/user_and_seller/view/profile_page/edit_profile_page.dart';
 import 'package:ecommerce_int2/app/user_and_seller/view/profile_page/forgot_password_page.dart';
@@ -129,6 +130,7 @@ class MyApp extends StatelessWidget {
       route(LikedProduct.routeName, LikedProduct()),
       route(EditProfileSeller.routeName, EditProfileSeller()),
       route(EditProfilePage.routeName, EditProfilePage()),
+      route(OrderSuccessScreen.routeName, OrderSuccessScreen())
 
     ],
     errorBuilder: (context, state) => ErrorPage(),
