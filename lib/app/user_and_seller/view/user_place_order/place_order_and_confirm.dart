@@ -10,7 +10,7 @@ import '../../model/products.dart';
 class OrderConfirmationScreen extends StatefulWidget {
   final Products product;
   final String email;
-  OrderConfirmationScreen(this.email, {required this.product});
+  OrderConfirmationScreen({required this.email, required this.product});
 
   @override
   State<OrderConfirmationScreen> createState() => _OrderConfirmationScreenState();
@@ -250,8 +250,9 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen> {
                               if (_formKey.currentState!.validate()) {
                                 _submitForm();
 
-                                print(' HEREEEEEEEEEEEEEEEEEEEEEEEEEEEE ') ;
+                                print(' kidharrrrr beyyyy ???') ;
                                 PhonepePg(
+                                    email: widget.email,
                                     context: context,
                                     amount: int.parse(widget.product.price),
                                     product: widget.product,

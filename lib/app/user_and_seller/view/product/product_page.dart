@@ -112,17 +112,20 @@ class _ProductPageState extends State<ProductPage> {
         });
 
         if (response.statusCode == 200) {
-          final responseData = json.decode(response.body);
-          if (responseData['success']) {
-            print('Order updated successfully');
+          var resBodyOfBuyNow = jsonDecode(response.body);
+          if (resBodyOfBuyNow['success'] == true) {
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return OrderConfirmationScreen(email: widget.email,
+                  product: widget.product);
+            }));
           } else {
-            print('Failed to update order');
+            Dialog(
+              child: Text("something got wrong"),
+            );
           }
-        } else {
-          print('Server error');
         }
       } catch (e) {
-        print('Error: $e');
+        print(e.toString());
       }
     }
 
@@ -159,40 +162,6 @@ class _ProductPageState extends State<ProductPage> {
     //     print("Error: $e");
     //   }
     // }
-
-    //buyNow
-    _buyNow() async {
-      try {
-        var res = await http.post(
-          Uri.parse(ApiEndPoints.baseURL+ApiEndPoints.buy_now),
-          body: {
-            "userId": "5",
-            "userEmail": widget.email,
-            "productId": widget.product.pid,
-            "productName": widget.product.name,
-            "productDescription": widget.product.description,
-            "productPrice": widget.product.price,
-            "pdImageUrl": widget.product.imgurl,
-            "sellerId": widget.product.sellerId,
-          },
-        );
-        if (res.statusCode == 200) {
-          var resBodyOfBuyNow = jsonDecode(res.body);
-          if (resBodyOfBuyNow['success'] == true) {
-            Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return OrderConfirmationScreen(widget.email,
-                  product: widget.product);
-            }));
-          } else {
-            Dialog(
-              child: Text("something got wrong"),
-            );
-          }
-        }
-      } catch (e) {
-        print(e.toString());
-      }
-    }
 
     Widget viewProductButton = InkWell(
       child: Container(
@@ -242,7 +211,7 @@ class _ProductPageState extends State<ProductPage> {
             //this is send to placed order and confirm page
             //and the data is saved into db
             _updateTotalOrders();
-            _buyNow();
+            // _buyNow();
           },
           child: Center(
             child: Text("Buy Now",

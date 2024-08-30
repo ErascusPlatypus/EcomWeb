@@ -27,6 +27,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:go_router/go_router.dart';
 import 'app/admin/view/profile_page/profile_page_admin.dart';
 import 'app/delivery/view/profile_page/profile_page_driver.dart';
+import 'app/user_and_seller/model/products.dart';
 import 'app/user_and_seller/view/main/components/shop_item_list.dart';
 import 'app/user_and_seller/view/main/main_page.dart';
 import 'app/user_and_seller/view/marketplace/ProductsMarketPlace.dart';
@@ -130,7 +131,9 @@ class MyApp extends StatelessWidget {
       route(LikedProduct.routeName, LikedProduct()),
       route(EditProfileSeller.routeName, EditProfileSeller()),
       route(EditProfilePage.routeName, EditProfilePage()),
-      route(OrderSuccessScreen.routeName, OrderSuccessScreen())
+      //route(OrderSuccessScreen.routeName, OrderSuccessScreen(email: "", product: Products(),)),
+      //route(OrderHistroyUser.routeName, OrderHistroyUser()())
+      //route(OrderHistroyUser.routeName, OrderHistroyUser()),
 
     ],
     errorBuilder: (context, state) => ErrorPage(),
