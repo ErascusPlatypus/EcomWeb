@@ -12,7 +12,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:ecommerce_int2/shared/widgets/diffUserText.dart';
+
+import '../../../../shared/widgets/diffUserText.dart';
+import '../../../delivery/view/auth/duplicate_welcome_driver.dart';
+
 
 class WelcomeBackPage extends StatefulWidget {
   static const routeName = '/login';
@@ -117,7 +120,7 @@ class _WelcomeBackPageState extends State<WelcomeBackPage> {
                                 _prefs.setBool('isLoggedIn', true);
                                 launch(context, MainPage.routeName, emailController.text);
                               } else {
-                                context.toast(value['msg']);
+                                // context.toast(value['msg']);
                               }
                             });
                           },

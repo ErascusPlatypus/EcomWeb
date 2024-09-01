@@ -99,4 +99,5 @@ class ApiEndPoints {
   static String fetch_orders_seller = "fetch_orders_seller.php/" ;
   static String insert_order = "insert_order.php/" ;
   static String fetch_orders = "fetch_orders.php/" ;
+  static String register_driver = "register_driver.php/" ;
 }

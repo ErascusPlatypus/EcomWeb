@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:ecommerce_int2/app/delivery/controller/deliveryAuthController.dart';
+import 'package:ecommerce_int2/app/delivery/view/auth/register_page_driver.dart';
 import 'package:ecommerce_int2/app/delivery/view/seller_b/serviceman_page.dart';
 import 'package:ecommerce_int2/app/user_and_seller/view/auth/welcome_back_page.dart';
 import 'package:ecommerce_int2/helper/app_properties.dart';
@@ -14,6 +15,7 @@ import '../../../../constants/apiEndPoints.dart';
 import '../../../../shared/widgets/diffUserText.dart';
 import '../../../user_and_seller/view/auth/welcome_back-page-owner.dart';
 import '../../../user_and_seller/view/profile_page_content/order_request.dart';
+import '../profile_page/profile_page_driver.dart';
 
 class WelcomeBackPageDriver extends StatefulWidget {
   const WelcomeBackPageDriver();
@@ -319,9 +321,13 @@ class _WelcomeBackPageDriverState extends State<WelcomeBackPageDriver> {
                                   if (value['auth'] == true) {
                                     final _prefs = await SharedPreferences.getInstance();
                                     _prefs.setString('userEmail', email.text);
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) {
-                                      return ServicemanPage();
-                                    }));
+                                    Navigator.push(
+                                      context,
+                                        MaterialPageRoute(
+                                          builder: (context) => ProfilePageDriver(),
+                                          settings: RouteSettings(arguments: email.text),
+                                        ),
+                                    );
                                     // launch(context, RepairOrders.routeName, email.text);
                                   } else if (value['auth'] == false) {
                                     context.toast("Wrong email or password");
@@ -369,7 +375,13 @@ class _WelcomeBackPageDriverState extends State<WelcomeBackPageDriver> {
                 actionText: 'Login Here',
                 onTap: () => launch(context, WelcomeBackPage.routeName)
             ),
+            RegisterTextButton(
+                mainText: 'Don\'t have an account? ',
+                actionText: 'Register Here',
+                onTap: () => launch(context, RegisterPageServiceMan.routeName)
+            ),
             const SizedBox(height: 20,)
+
           ],
         ),
       ),

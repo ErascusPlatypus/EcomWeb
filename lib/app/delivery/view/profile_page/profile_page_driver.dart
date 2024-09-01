@@ -1,9 +1,7 @@
+import 'package:ecommerce_int2/app/delivery/view/kyc/kyc_page.dart';
 import 'package:ecommerce_int2/helper/app_properties.dart';
 import 'package:ecommerce_int2/app/admin/view/profile_page/showMessageDriver.dart';
-
-
 import 'package:flutter/material.dart';
-
 import '../../../user_and_seller/view/profile_page_content/faq_page.dart';
 import '../../../user_and_seller/view/profile_page_content/pending_requests.dart';
 import '../../../user_and_seller/view/profile_page_content/sell_item.dart';
@@ -35,6 +33,13 @@ class ProfilePageDriver extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     email,
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'Please complete your KYC',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -133,6 +138,28 @@ class ProfilePageDriver extends StatelessWidget {
                   trailing: Icon(Icons.chevron_right, color: yellow),
                   onTap: () => Navigator.of(context)
                       .push(MaterialPageRoute(builder: (_) => SettingsPage())),
+                ),
+                Divider(),
+                ListTile(
+                  title: Text('KYC'),
+                  subtitle: Text('Service Area and other details'),
+                  leading: Icon(
+                    Icons.area_chart_outlined,
+                    color: Colors.black54,
+                  ),
+                  trailing: Icon(
+                    Icons.chevron_right,
+                    color: yellow,
+                  ),
+                  onTap: () {
+                    //final String email = 'user@example.com';
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => KycPageDriver(),
+                        settings: RouteSettings(arguments: email),
+                      ),
+                    );
+                  },
                 ),
                 Divider(),
                 ListTile(
