@@ -49,7 +49,8 @@ class _RegisterPageServiceManState extends State<RegisterPageServiceMan> {
         Uri.parse(url),
         body: data,
         headers: {
-          "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+          'Content-Type': 'application/json;charset=UTF-8',
+          'Charset': 'utf-8'
         },
       );
 

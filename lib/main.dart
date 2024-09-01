@@ -4,6 +4,7 @@ import 'package:ecommerce_int2/app/admin/view/profile_page/showMessageDriver.dar
 import 'package:ecommerce_int2/app/admin/view/profile_page/showMessagesAdmin.dart';
 import 'package:ecommerce_int2/app/delivery/view/auth/register_page_driver.dart';
 import 'package:ecommerce_int2/app/delivery/view/auth/welcome_back_driver.dart';
+import 'package:ecommerce_int2/app/delivery/view/kyc/kyc_page.dart';
 import 'package:ecommerce_int2/app/delivery/view/profile_page/third_party_delivery_service.dart';
 import 'package:ecommerce_int2/app/user_and_seller/view/address/add_address_page.dart';
 import 'package:ecommerce_int2/app/user_and_seller/view/auth/register_page.dart';
@@ -135,7 +136,8 @@ class MyApp extends StatelessWidget {
       route(EditProfileSeller.routeName, EditProfileSeller()),
       route(EditProfilePage.routeName, EditProfilePage()),
       route(GstPanInputScreen.routeName, GstPanInputScreen()),
-      route(RegisterPageServiceMan.routeName, RegisterPageServiceMan())
+      route(RegisterPageServiceMan.routeName, RegisterPageServiceMan()),
+      route(KycPageDriver.routeName, KycPageDriver()) 
     ],
     errorBuilder: (context, state) => ErrorPage(),
   );
