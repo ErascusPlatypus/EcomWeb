@@ -2,6 +2,7 @@ import 'package:ecommerce_int2/app/admin/view/auth/admin_login.dart';
 import 'package:ecommerce_int2/app/admin/view/others/contacts.dart';
 import 'package:ecommerce_int2/app/admin/view/profile_page/showMessageDriver.dart';
 import 'package:ecommerce_int2/app/admin/view/profile_page/showMessagesAdmin.dart';
+import 'package:ecommerce_int2/app/delivery/view/auth/register_page_driver.dart';
 import 'package:ecommerce_int2/app/delivery/view/auth/welcome_back_driver.dart';
 import 'package:ecommerce_int2/app/delivery/view/profile_page/third_party_delivery_service.dart';
 import 'package:ecommerce_int2/app/user_and_seller/view/address/add_address_page.dart';
@@ -26,6 +27,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:go_router/go_router.dart';
 import 'app/admin/view/profile_page/profile_page_admin.dart';
+import 'app/delivery/view/auth/duplicate_welcome_driver.dart';
 import 'app/delivery/view/profile_page/profile_page_driver.dart';
 import 'app/user_and_seller/model/products.dart';
 import 'app/user_and_seller/view/main/components/shop_item_list.dart';
@@ -132,8 +134,8 @@ class MyApp extends StatelessWidget {
       route(LikedProduct.routeName, LikedProduct()),
       route(EditProfileSeller.routeName, EditProfileSeller()),
       route(EditProfilePage.routeName, EditProfilePage()),
-      route(GstPanInputScreen.routeName, GstPanInputScreen())
-
+      route(GstPanInputScreen.routeName, GstPanInputScreen()),
+      route(RegisterPageServiceMan.routeName, RegisterPageServiceMan())
     ],
     errorBuilder: (context, state) => ErrorPage(),
   );

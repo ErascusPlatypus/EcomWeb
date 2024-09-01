@@ -136,6 +136,21 @@ class ProfilePageDriver extends StatelessWidget {
                 ),
                 Divider(),
                 ListTile(
+                  title: Text('KYC'),
+                  subtitle: Text('Service Area and other details'),
+                  leading: Icon(
+                    Icons.area_chart_outlined,
+                    color: Colors.black54,
+                  ),
+                  trailing: Icon(
+                    Icons.chevron_right,
+                    color: yellow,
+                  ),
+                  onTap: () => Navigator.of(context)
+                      .pushNamed(PendingRequest.routeName, arguments: email),
+                ),
+                Divider(),
+                ListTile(
                   title: Text('Pending Requests'),
                   subtitle: Text('Repairing services'),
                   leading: Image.asset('assets/icons/support.png'),
