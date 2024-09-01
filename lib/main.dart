@@ -34,6 +34,7 @@ import 'app/user_and_seller/view/marketplace/ProductsMarketPlace.dart';
 import 'app/user_and_seller/view/marketplace/SellProductUser.dart';
 import 'app/user_and_seller/view/marketplace/marketPlacePage.dart';
 import 'app/user_and_seller/view/profile_page/edit_profile_page_seller.dart';
+import 'app/user_and_seller/view/profile_page/gst_info.dart';
 import 'app/user_and_seller/view/profile_page/profile_page.dart';
 import 'app/user_and_seller/view/profile_page/profile_page_seller.dart';
 import 'app/user_and_seller/view/profile_page_content/accept_repair.dart';
@@ -131,9 +132,7 @@ class MyApp extends StatelessWidget {
       route(LikedProduct.routeName, LikedProduct()),
       route(EditProfileSeller.routeName, EditProfileSeller()),
       route(EditProfilePage.routeName, EditProfilePage()),
-      //route(OrderSuccessScreen.routeName, OrderSuccessScreen(email: "", product: Products(),)),
-      //route(OrderHistroyUser.routeName, OrderHistroyUser()())
-      //route(OrderHistroyUser.routeName, OrderHistroyUser()),
+      route(GstPanInputScreen.routeName, GstPanInputScreen())
 
     ],
     errorBuilder: (context, state) => ErrorPage(),

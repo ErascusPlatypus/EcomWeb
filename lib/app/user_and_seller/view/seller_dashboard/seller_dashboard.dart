@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:ecommerce_int2/app/user_and_seller/model/user.dart';
+import 'package:ecommerce_int2/app/user_and_seller/view/profile_page_content/add_seller_item.dart';
 import 'package:ecommerce_int2/app/user_and_seller/view/profile_page_content/edit_item.dart';
 import 'package:ecommerce_int2/app/user_and_seller/view/seller_a_order_page/seller_a_order_page.dart';
 import 'package:ecommerce_int2/app/user_and_seller/view/service_men/service_men_list.dart';
@@ -157,12 +158,14 @@ class _SellerDashboardState extends State<SellerDashboard>
             ),
             floatingActionButton:ElevatedButton(
                 onPressed: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => const SellerAOrders(),
-                  //   ),
-                  // );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AddSellerItemScreen(),
+                    ),
+                  );
+
+
                 },
                 child: Row(
                   mainAxisSize: MainAxisSize.min,

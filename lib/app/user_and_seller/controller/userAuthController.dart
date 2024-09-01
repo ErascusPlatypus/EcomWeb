@@ -31,12 +31,14 @@ class UserAuthController {
       {required String email,
       required String password,
       required String code,
-      required String name}) async {
+      required String name,
+      required String phone}) async {
     var postData = {
       "name": name,
       "email": email,
       "password": password,
       "code": code,
+      "phone": phone
     };
     var formData = FormData.fromMap(postData);
     try {

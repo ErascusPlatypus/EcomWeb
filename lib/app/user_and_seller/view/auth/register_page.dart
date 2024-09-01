@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:ecommerce_int2/app/user_and_seller/controller/userAuthController.dart';
 import 'package:ecommerce_int2/app/user_and_seller/view/auth/utils/form_widget.dart';
 import 'package:ecommerce_int2/app/user_and_seller/view/auth/utils/login_header_widget.dart';
@@ -9,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../../../constants/apiEndPoints.dart';
 import '../../../../shared/widgets/InputDecorations.dart';
 
@@ -22,27 +20,24 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   TextEditingController email = TextEditingController();
-
   TextEditingController password = TextEditingController();
-
   TextEditingController cmfPassword = TextEditingController();
-
   TextEditingController code = TextEditingController();
   TextEditingController name = TextEditingController();
+  TextEditingController phone = TextEditingController(); // Added controller
 
-  String email1 = "",
-      password1 = "";
+  String email1 = "", password1 = "";
   final formKey = GlobalKey<FormState>();
   bool? formIsValid;
 
   @override
   void dispose() {
-    // TODO: implement dispose
     email.dispose();
     password.dispose();
     cmfPassword.dispose();
     code.dispose();
     name.dispose();
+    phone.dispose(); // Dispose the new controller
     super.dispose();
   }
 
@@ -74,17 +69,13 @@ class _RegisterPageState extends State<RegisterPage> {
         ));
 
     Widget registerButton = Container(
-      margin: const EdgeInsets.only(top: 20.0), // Added margin for spacing
+      margin: const EdgeInsets.only(top: 20.0),
       child: SizedBox(
-        width: MediaQuery
-            .of(context)
-            .size
-            .width / 2,
+        width: MediaQuery.of(context).size.width / 2,
         height: 60,
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
             backgroundColor: mainButton.colors.first,
-            // Use your gradient color here
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(9.0),
             ),
@@ -99,7 +90,8 @@ class _RegisterPageState extends State<RegisterPage> {
                   name: name.text,
                   email: email.text,
                   password: password.text,
-                  code: code.text)
+                  code: code.text,
+                  phone: phone.text) // Pass phone number
                   .then((value) async {
                 if (value != null) {
                   if (value["success"] == "1") {
@@ -108,6 +100,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     password.clear();
                     cmfPassword.clear();
                     code.clear();
+                    phone.clear(); // Clear phone number
                     final _prefs = await SharedPreferences.getInstance();
                     _prefs.setBool('isLoggedIn', true);
                     finish(context);
@@ -132,7 +125,7 @@ class _RegisterPageState extends State<RegisterPage> {
     );
 
     Widget registerForm = Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0), // Added padding
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
       decoration: BoxDecoration(
         color: Color.fromRGBO(255, 255, 255, 0.8),
         borderRadius: BorderRadius.only(
@@ -170,8 +163,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   if (value!.isEmpty) {
                     return 'Please Enter Email';
                   }
-                  if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
-                      .hasMatch(value)) {
+                  if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+\\.[a-z]").hasMatch(value)) {
                     return 'Please enter a valid Email';
                   }
                   return null;
@@ -202,8 +194,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 controller: cmfPassword,
                 obscureText: true,
                 keyboardType: TextInputType.text,
-                decoration: buildInputDecoration(
-                    Icons.lock, "Confirm Password"),
+                decoration: buildInputDecoration(Icons.lock, "Confirm Password"),
                 validator: (String? value) {
                   if (value!.isEmpty) {
                     return 'Please re-enter password';
@@ -218,11 +209,27 @@ class _RegisterPageState extends State<RegisterPage> {
             Padding(
               padding: const EdgeInsets.only(top: 8.0),
               child: TextFormField(
+                controller: phone,
+                keyboardType: TextInputType.phone,
+                decoration: buildInputDecoration(Icons.phone, "Phone Number"),
+                validator: (String? value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter your phone number';
+                  }
+                  if (!RegExp(r'^[0-9]{10}$').hasMatch(value)) {
+                    return 'Please enter a valid phone number';
+                  }
+                  return null;
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: TextFormField(
                 textCapitalization: TextCapitalization.characters,
                 controller: code,
                 keyboardType: TextInputType.text,
-                decoration: buildInputDecoration(
-                    Icons.text_fields, "Referral Code"),
+                decoration: buildInputDecoration(Icons.text_fields, "Referral Code"),
                 validator: (String? value) {
                   return null;
                 },

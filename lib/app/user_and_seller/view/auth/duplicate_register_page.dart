@@ -28,6 +28,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
   TextEditingController code = TextEditingController();
   TextEditingController name = TextEditingController();
+  TextEditingController phone = TextEditingController();
+
 
   String email1 = "", password1 = "";
   final formKey = GlobalKey<FormState>();
@@ -83,7 +85,9 @@ class _RegisterPageState extends State<RegisterPage> {
                 name: name.text,
                 email: email.text,
                 password: password.text,
-                code: code.text)
+                code: code.text,
+              phone: phone.text
+            )
                 .then((value) async {
               if (value != null) {
                 if (value["success"] == "1") {
