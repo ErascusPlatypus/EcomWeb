@@ -19,6 +19,7 @@ class AddAddressPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final data = context.extra['product'];
     var grandTotal = context.extra['grandTotal'];
+    final email = context.extra['email'];
 
     Widget finishButton = InkWell(
       onTap: () {
@@ -35,6 +36,7 @@ class AddAddressPage extends StatelessWidget {
           // );
 
           PhonepePg(
+              email: email,
               context: context,
               amount: (double.parse(grandTotal)).toInt(),
               product: data,
@@ -132,6 +134,7 @@ class AddAddressPage extends StatelessWidget {
                       InkWell(
                         onTap: () {
                           PhonepePg(
+                            email: email,
                               context: context,
                               amount: (double.parse(grandTotal)).toInt(),
                               product: data,

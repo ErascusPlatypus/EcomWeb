@@ -6,14 +6,17 @@ import 'package:flutter/material.dart';
 import 'package:phonepe_payment_sdk/phonepe_payment_sdk.dart';
 
 import '../../model/products.dart';
+import '../order_sucess/order_success.dart';
 
 class PhonepePg {
   int amount;
   BuildContext context;
   Products product ;
   var address ;
+  String email ;
 
   PhonepePg({
+    required this.email,
     required this.context,
     required this.amount,
     required this.product,
@@ -57,8 +60,21 @@ class PhonepePg {
         .then((success) {
       log("Payment success ${success}");
 
+      navigateToSuccessScreen();
+
     }).catchError((error) {
       log("Payment failed ${error}");
     });
   }
+
+  void navigateToSuccessScreen() {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) => OrderSuccessScreen(email: email, product: product, address: address),
+      ),
+    );
+  }
+
+
+
 }

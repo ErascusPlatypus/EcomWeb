@@ -201,7 +201,7 @@ class _WelcomeBackPageOwnerState extends State<WelcomeBackPageOwner> {
             RegisterTextButton(
               mainText: 'New Seller? ',
               actionText: 'Register here',
-              onTap: () => launch(context, WelcomeBackPageOwner.routeName),
+              onTap: () => launch(context, RegisterPageOwner.routeName),
             ),
             SizedBox(height: 20.0),
           ],

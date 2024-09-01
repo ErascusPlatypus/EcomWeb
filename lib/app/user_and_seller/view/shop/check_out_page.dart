@@ -76,6 +76,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
     Widget checkOutButton = InkWell(
       onTap: () {
         launch(context, AddAddressPage.routeName, {
+          "email": widget.email,
           "product": _product,
           "grandTotal": (widget.grandTotal.values.reduce(
                 (sum, element) {

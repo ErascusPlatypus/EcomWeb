@@ -16,6 +16,7 @@ import '../profile_page_content/sell_item.dart';
 import '../profile_page_content/tracking_page.dart';
 import '../settings/settings_page.dart';
 import '../wallet/wallet_page.dart';
+import 'gst_info.dart';
 
 class ProfilePageSeller extends StatefulWidget {
   static const routeName = "/ProfileSeller";
@@ -25,7 +26,7 @@ class ProfilePageSeller extends StatefulWidget {
 }
 
 class _ProfilePageSellerState extends State<ProfilePageSeller> {
-  String gstin = '18';
+  String gstin = '17';
   late String email;
   String _name = '';
   @override
@@ -193,6 +194,24 @@ class _ProfilePageSellerState extends State<ProfilePageSeller> {
                   ),
                   onTap: () => launch(
                       context, ThirdPartyDeliveryService.routeName, email),
+                ),
+                Divider(),
+                ListTile(
+                  title: Text('GSTIN Info'),
+                  subtitle: Text('GST Number, Certificate, etc'),
+                  leading: Icon(
+                    Icons.monetization_on_outlined,
+                    color: Colors.black54,
+                  ),
+                  trailing: Icon(
+                    Icons.chevron_right,
+                    color: yellow,
+                  ),
+                  onTap: () {
+                    print(email);
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (_) => GstPanInputScreen()));
+                  },
                 ),
                 Divider(),
                 ListTile(

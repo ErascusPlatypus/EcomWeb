@@ -231,7 +231,7 @@ class UserController {
     var formData = FormData.fromMap(postData);
     try {
       var response = await GetDio.getDio()
-          .post(ApiEndPoints.baseURL+ApiEndPoints.fetch_order_user, data: formData);
+          .post(ApiEndPoints.baseURL+ApiEndPoints.fetch_orders, data: formData);
       return orderDetailsFromJson(response.data);
     } catch (e) {
       EasyLoading.showError(AppStrings.ApiErrorMessage);
