@@ -1,5 +1,12 @@
+import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart';
+import '../../../../constants/apiEndPoints.dart';
+import '../profile_page/profile_page_driver.dart';
 
 class KycPageDriver extends StatefulWidget {
   static const routeName = "/kyc_page_driver";
@@ -22,18 +29,58 @@ class _KycPageDriverState extends State<KycPageDriver> {
   XFile? _aadhaarImage;
   final ImagePicker _picker = ImagePicker();
 
+  @override
+  void initState() {
+    super.initState();
+    _loadKycData();
+  }
+
+  Future<void> _loadKycData() async {
+    final String email = ModalRoute.of(context as BuildContext)!.settings.arguments as String;
+
+    var url = Uri.parse(ApiEndPoints.baseURL + ApiEndPoints.check_kyc);
+    var response = await http.post(url, body: {"email": email});
+
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      if (data.containsKey('error')) {
+        print('No data found');
+      } else {
+        _cityController.text = data['city'] ?? '';
+        _areaController.text = data['area'] ?? '';
+        _stateController.text = data['state'] ?? '';
+        _pincodeController.text = data['pincode'] ?? '';
+        _pricePerKmController.text = data['price_per_km'] ?? '';
+        _panCardController.text = data['pan_card'] ?? '';
+        _aadhaarController.text = data['aadhaar'] ?? '';
+
+        // Set images if available
+        setState(() {
+          _panCardImage = data['pan_card_image'] != null ? XFile(data['pan_card_image']) : null;
+          _aadhaarImage = data['aadhaar_image'] != null ? XFile(data['aadhaar_image']) : null;
+        });
+      }
+    } else {
+      print('Failed to load KYC data');
+    }
+  }
+
   Future<void> _pickPanCardImage() async {
     final pickedImage = await _picker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      _panCardImage = pickedImage;
-    });
+    if (pickedImage != null) {
+      setState(() {
+        _panCardImage = pickedImage;
+      });
+    }
   }
 
   Future<void> _pickAadhaarImage() async {
     final pickedImage = await _picker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      _aadhaarImage = pickedImage;
-    });
+    if (pickedImage != null) {
+      setState(() {
+        _aadhaarImage = pickedImage;
+      });
+    }
   }
 
   @override
@@ -115,10 +162,7 @@ class _KycPageDriverState extends State<KycPageDriver> {
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    // Process the KYC data
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('KYC Completed')),
-                    );
+                    _submitKycData(email);
                   }
                 },
                 style: ElevatedButton.styleFrom(
@@ -160,5 +204,48 @@ class _KycPageDriverState extends State<KycPageDriver> {
         return null;
       },
     );
+  }
+
+  Future<void> _submitKycData(String email) async {
+    var url = Uri.parse(ApiEndPoints.baseURL + ApiEndPoints.driver_kyc);
+
+    var request = http.MultipartRequest('POST', url)
+      ..fields['email'] = email
+      ..fields['city'] = _cityController.text
+      ..fields['area'] = _areaController.text
+      ..fields['state'] = _stateController.text
+      ..fields['pincode'] = _pincodeController.text
+      ..fields['price_per_km'] = _pricePerKmController.text
+      ..fields['pan_card'] = _panCardController.text
+      ..fields['aadhaar'] = _aadhaarController.text;
+
+    if (_panCardImage != null) {
+      request.files.add(await http.MultipartFile.fromPath(
+        'pan_card_image',
+        _panCardImage!.path,
+      ));
+    }
+
+    if (_aadhaarImage != null) {
+      request.files.add(await http.MultipartFile.fromPath(
+        'aadhaar_image',
+        _aadhaarImage!.path,
+      ));
+    }
+
+    var response = await request.send();
+
+    if (response.statusCode == 200) {
+      var responseBody = await response.stream.bytesToString();
+      var decodedResponse = jsonDecode(responseBody);
+
+      if (decodedResponse == "true") {
+        Navigator.pushReplacementNamed(context as BuildContext, ProfilePageDriver.routeName, arguments: email);
+      } else {
+        print('Error: Data insertion failed');
+      }
+    } else {
+      print('Failed to submit KYC');
+    }
   }
 }

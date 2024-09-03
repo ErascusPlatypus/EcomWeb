@@ -1,3 +1,5 @@
+import 'package:ecommerce_int2/app/admin/view/profile_page/showMessageDriver.dart';
+import 'package:ecommerce_int2/app/admin/view/profile_page/showMessagesAdmin.dart';
 import 'package:ecommerce_int2/app/admin/view/profile_page/term_policies.dart';
 import 'package:ecommerce_int2/helper/app_properties.dart';
 import 'package:ecommerce_int2/app/admin/view/others/contacts.dart';
@@ -216,17 +218,17 @@ class ProfilePageAdmin extends StatelessWidget {
                     onTap: () => Navigator.of(context).push(
                         MaterialPageRoute(builder: (_) => ExtraChargesAdmin())),
                   ),
-                  // Divider(),
-                  // ListTile(
-                  //   title: Text('Messages'),
-                  //   subtitle: Text('Received Messages'),
-                  //   leading: Image.asset('assets/icons/support.png'),
-                  //   trailing: Icon(
-                  //     Icons.chevron_right,
-                  //     color: yellow,
-                  //   ),
-                  //   onTap: () => launch(context, ShowMessagesAdmin.routeName, email), // Navigator.of(context).push(MaterialPageRoute(builder: (_) => MessagesPage(userID: email,)));
-                  // ),
+                  Divider(),
+                  ListTile(
+                    title: Text('KYC'),
+                    subtitle: Text('Received Messages'),
+                    leading: Image.asset('assets/icons/support.png'),
+                    trailing: Icon(
+                      Icons.chevron_right,
+                      color: yellow,
+                    ),
+                    onTap: () => launch(context, ShowMessagesDriver.routeName, ), // Navigator.of(context).push(MaterialPageRoute(builder: (_) => MessagesPage(userID: email,)));
+                  ),
                   Divider(),
                   ListTile(
                       title: Text('Test'),
