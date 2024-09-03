@@ -248,6 +248,21 @@ class ProfilePageAdmin extends StatelessWidget {
                       ),
                   Divider(),
                   ListTile(
+                      title: Text('About Us'),
+                      subtitle: Text('edit about us page'),
+                      leading: Image.asset('assets/icons/support.png'),
+                      trailing: Icon(
+                        Icons.chevron_right,
+                        color: yellow,
+                      ),
+                      onTap: () {
+                        print(email);
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (_) => AboutUsPage(
+                            )));
+                      } //
+                  ),
+                  ListTile(
                     title: Text('FAQ'),
                     subtitle: Text('Questions and Answer'),
                     leading: Image.asset('assets/icons/faq.png'),
