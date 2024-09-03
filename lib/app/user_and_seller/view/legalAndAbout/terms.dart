@@ -22,7 +22,7 @@ class _TermsUseState extends State<TermsUse> {
 
   Future<void> fetchExistingTerms() async {
     final response = await http.get(
-        Uri.parse('http://192.168.20.2/ecom-php/ecom/term_policies_get.php/'));
+        Uri.parse('http://10.0.2.2:8080/term_policies_get.php/'));
 
     if (response.statusCode == 200) {
       Map<String, dynamic> existingTerms = json.decode(response.body);

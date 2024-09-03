@@ -1,12 +1,27 @@
-
+import 'dart:convert';
+import 'package:ecommerce_int2/app/admin/view/profile_page/profile_page_admin.dart';
 import 'package:ecommerce_int2/shared/controllers/commonController.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import '../../../../constants/apiEndPoints.dart';
 import '../../../user_and_seller/model/getMessages.dart';
 import '../../../user_and_seller/view/profile_page/profile_page_seller.dart';
 import '../../../user_and_seller/view/profile_page_content/MessageDialogBox.dart';
 
 class ShowMessagesDriver extends StatelessWidget {
   static const routeName = "/ShowMessagesDriver";
+
+  Future<List<dynamic>> checkForNewEntries() async {
+    final response = await http.get(Uri.parse(
+        ApiEndPoints.baseURL + ApiEndPoints.fetch_admin_kyc));
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      return data; // Assuming data is a list of rows
+    } else {
+      throw Exception('Failed to load new entries');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +32,7 @@ class ShowMessagesDriver extends StatelessWidget {
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.of(context).pushReplacementNamed(
-              ProfilePageSeller.routeName,
+              ProfilePageAdmin.routeName,
               arguments: email),
         ),
         title: Text('Messages'),
@@ -31,7 +46,7 @@ class ShowMessagesDriver extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.only(left: 16.0, right: 16.0),
                 child: FutureBuilder(
-                  future: CommonController.getMessages(email),
+                  future: checkForNewEntries(),
                   builder: (context, AsyncSnapshot snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(
@@ -44,27 +59,21 @@ class ShowMessagesDriver extends StatelessWidget {
                           shrinkWrap: true,
                           itemCount: snapshot.data.length,
                           itemBuilder: (_, index) {
-                            GetMessages message = snapshot.data[index];
+                            var entry = snapshot.data[index];
 
                             return Column(children: <Widget>[
                               ListTile(
                                 title: Text(
-                                  message.fromEmail == "sarthak@k.com"
-                                      ? "Admin"
-                                      : message.fromEmail,
+                                  "Driver ID: ${entry['driver_id']}",
                                   style: TextStyle(fontSize: 20),
                                 ),
                                 leading: Icon(
-                                  Icons.people,
+                                  Icons.person,
                                 ),
                               ),
                               ListTile(
-                                title: Text("Message: ${message.msg}"),
+                                title: Text("Created At: ${entry['created_at']}"),
                               ),
-                              ElevatedButton(
-                                  onPressed: () => showMessageDialog(context,
-                                      from: email, to: message.fromEmail),
-                                  child: Text("Reply")),
                               Divider(),
                             ]);
                           });
@@ -76,10 +85,11 @@ class ShowMessagesDriver extends StatelessWidget {
                             top: 30,
                           ),
                           child: Text(
-                            "No Messages",
+                            "No new entries",
                             style: TextStyle(
                                 fontSize: 14, fontWeight: FontWeight.bold),
-                          ));
+                          )
+                      );
                     }
                   },
                 ),

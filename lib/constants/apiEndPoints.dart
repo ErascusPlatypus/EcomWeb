@@ -100,4 +100,7 @@ class ApiEndPoints {
   static String insert_order = "insert_order.php/" ;
   static String fetch_orders = "fetch_orders.php/" ;
   static String register_driver = "register_driver.php/" ;
+  static String driver_kyc = "driver_kyc.php/" ;
+  static String check_kyc = "check_kyc.php/" ;
+  static String fetch_admin_kyc = "fetch_admin_kyc.php/" ;
 }
