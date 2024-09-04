@@ -1,6 +1,7 @@
 import 'package:ecommerce_int2/app/admin/view/profile_page/showMessageDriver.dart';
 import 'package:ecommerce_int2/app/admin/view/profile_page/showMessagesAdmin.dart';
 import 'package:ecommerce_int2/app/admin/view/profile_page/term_policies.dart';
+import 'package:ecommerce_int2/app/user_and_seller/view/settings/help_support.dart';
 import 'package:ecommerce_int2/helper/app_properties.dart';
 import 'package:ecommerce_int2/app/admin/view/others/contacts.dart';
 import 'package:ecommerce_int2/main.dart';
@@ -12,6 +13,7 @@ import '../../../user_and_seller/view/profile_page_content/restrict_seller.dart'
 import '../../../user_and_seller/view/profile_page_content/restrict_user.dart';
 import '../../../user_and_seller/view/profile_page_content/restricted_seller.dart';
 import '../../../user_and_seller/view/profile_page_content/restricted_user.dart';
+import '../../../user_and_seller/view/settings/about_us.dart';
 import '../../../user_and_seller/view/settings/settings_page.dart';
 import '../others/all_orders.dart';
 import 'extra_charges_admin.dart';
@@ -247,6 +249,37 @@ class ProfilePageAdmin extends StatelessWidget {
                       } //
                       ),
                   Divider(),
+                  ListTile(
+                    title: Text('Help & Support'),
+                    subtitle: Text('Edit Help Page'),
+                    leading: Icon(
+                      Icons.help_center_outlined,
+                      color: Colors.black54,
+                    ),
+                    trailing: Icon(
+                      Icons.chevron_right,
+                      color: yellow,
+                    ),
+                    onTap: () =>  Navigator.of(context).push(
+                        MaterialPageRoute(builder: (_) => HelpSupportPage()
+                        )
+                    )
+                  ),
+                  Divider(),
+                  ListTile(
+                      title: Text('About Us'),
+                      subtitle: Text('edit about us page'),
+                      leading: Image.asset('assets/icons/support.png'),
+                      trailing: Icon(
+                        Icons.chevron_right,
+                        color: yellow,
+                      ),
+                      onTap: () {
+                        print(email);
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (_) => AboutUsPage()));
+                      } //
+                  ),
                   ListTile(
                     title: Text('FAQ'),
                     subtitle: Text('Questions and Answer'),

@@ -55,6 +55,7 @@ import 'app/user_and_seller/view/profile_page_content/sell_item.dart';
 import 'app/user_and_seller/view/profile_page_content/showMessageSeller.dart';
 import 'app/user_and_seller/view/profile_page_content/showMessageUser.dart';
 import 'app/user_and_seller/view/seller_dashboard/seller_dashboard.dart';
+import 'app/user_and_seller/view/settings/help_support.dart';
 
 void main() => runApp(MyApp());
 
@@ -137,7 +138,8 @@ class MyApp extends StatelessWidget {
       route(EditProfilePage.routeName, EditProfilePage()),
       route(GstPanInputScreen.routeName, GstPanInputScreen()),
       route(RegisterPageServiceMan.routeName, RegisterPageServiceMan()),
-      route(KycPageDriver.routeName, KycPageDriver()) 
+      route(KycPageDriver.routeName, KycPageDriver()) ,
+      route(HelpSupportPage.routeName, HelpSupportPage())
     ],
     errorBuilder: (context, state) => ErrorPage(),
   );
