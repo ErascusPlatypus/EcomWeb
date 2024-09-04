@@ -261,7 +261,7 @@ class ProfilePageAdmin extends StatelessWidget {
                       color: yellow,
                     ),
                     onTap: () =>  Navigator.of(context).push(
-                        MaterialPageRoute(builder: (_) => HelpSupportPage()
+                        MaterialPageRoute(builder: (_) => AdminHelpSupportPage()
                         )
                     )
                   ),
