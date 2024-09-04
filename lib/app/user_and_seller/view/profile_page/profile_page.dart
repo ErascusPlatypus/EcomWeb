@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:ecommerce_int2/app/user_and_seller/controller/userController.dart';
 import 'package:ecommerce_int2/app/user_and_seller/view/profile_page/edit_profile_page.dart';
 import 'package:ecommerce_int2/app/user_and_seller/view/profile_page/liked_product.dart';
+import 'package:ecommerce_int2/app/user_and_seller/view/settings/help_support_user.dart';
 import 'package:ecommerce_int2/helper/app_properties.dart';
 import 'package:ecommerce_int2/helper/base.dart';
 import 'package:flutter/material.dart';
@@ -344,7 +345,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         launch(context, AppointmentUser.routeName, email)),
                 Divider(),
                 ListTile(
-                  enabled: false,
+                  enabled: true,
                   title: Text('Help & Support'),
                   subtitle: Text('Help center and legal support'),
                   leading: Image.asset('assets/icons/support.png'),
@@ -352,6 +353,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     Icons.chevron_right,
                     color: yellow,
                   ),
+                  onTap: () => Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (_) => HelpSupportPageUser())),
                 ),
                 Divider(),
                 ListTile(

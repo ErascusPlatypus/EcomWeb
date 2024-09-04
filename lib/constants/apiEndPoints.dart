@@ -103,4 +103,8 @@ class ApiEndPoints {
   static String driver_kyc = "driver_kyc.php/" ;
   static String check_kyc = "check_kyc.php/" ;
   static String fetch_admin_kyc = "fetch_admin_kyc.php/" ;
+  static String about_us_get = "about_us_get.php/" ;
+  static String about_us_update = "about_us_update.php/" ;
+  static String help_support_update = "help_support_update.php/" ;
+  static String help_support_get = "help_support_get.php/" ;
 }

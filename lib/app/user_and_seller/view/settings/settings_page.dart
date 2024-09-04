@@ -1,9 +1,11 @@
+import 'package:ecommerce_int2/app/user_and_seller/view/settings/user_about_us.dart';
 import 'package:ecommerce_int2/helper/app_properties.dart';
 import 'package:ecommerce_int2/app/user_and_seller/view/auth/welcome_back_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'about_us.dart';
 import 'change_country.dart';
 import 'change_language_page.dart';
 import 'change_password_page.dart';
@@ -84,7 +86,9 @@ class SettingsPage extends StatelessWidget {
                             ListTile(
                               title: Text('About Us'),
                               leading: Image.asset('assets/icons/about_us.png'),
-                              onTap: () {},
+                              onTap: () => Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (_) => AboutUsPageUser())),
                             ),
                             Padding(
                               padding:
