@@ -6,38 +6,50 @@ import '../../../../constants/apiEndPoints.dart';
 
 class HelpSupportPageUser extends StatefulWidget {
   @override
-  _HelpSupportPageState createState() => _HelpSupportPageState();
+  _HelpSupportPageUserState createState() => _HelpSupportPageUserState();
 }
 
-class _HelpSupportPageState extends State<HelpSupportPageUser> {
-  String _contact = '';
-  String _email = '';
-  String _address = '';
+class _HelpSupportPageUserState extends State<HelpSupportPageUser> {
+  final _problemController = TextEditingController();
+  bool _isSubmitting = false;
 
-  @override
-  void initState() {
-    super.initState();
-    _fetchHelpSupportInfo();
-  }
+  Future<void> _submitProblem() async {
+    final url = Uri.parse(ApiEndPoints.baseURL + ApiEndPoints.help_support_update);
+    setState(() {
+      _isSubmitting = true;
+    });
 
-  Future<void> _fetchHelpSupportInfo() async {
-    final url = Uri.parse(ApiEndPoints.baseURL + ApiEndPoints.help_support_get);
     try {
-      final response = await http.get(url);
+      final response = await http.post(
+        url,
+        body: {
+          'problem': _problemController.text,
+          // Optionally include user details like user ID if needed
+        },
+      );
+
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
-        setState(() {
-          _contact = data['contact'] ?? 'N/A';
-          _email = data['email'] ?? 'N/A';
-          _address = data['address'] ?? 'N/A';
-        });
+        // Handle success response
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Problem submitted successfully!')),
+        );
+        _problemController.clear();
       } else {
         // Handle server error
-        print('Failed to load Help & Support content.');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to submit problem.')),
+        );
       }
     } catch (e) {
       // Handle network error
-      print('Error loading Help & Support content: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error submitting problem: $e')),
+      );
+    } finally {
+      setState(() {
+        _isSubmitting = false;
+      });
     }
   }
 
@@ -54,33 +66,25 @@ class _HelpSupportPageState extends State<HelpSupportPageUser> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Contact:',
+              'Submit your problem:',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 8),
-            Text(
-              _contact,
-              style: TextStyle(fontSize: 16),
+            TextField(
+              controller: _problemController,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: 'Describe your problem here...',
+              ),
+              maxLines: 5,
             ),
             SizedBox(height: 16),
-            Text(
-              'Email:',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 8),
-            Text(
-              _email,
-              style: TextStyle(fontSize: 16),
-            ),
-            SizedBox(height: 16),
-            Text(
-              'Address:',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 8),
-            Text(
-              _address,
-              style: TextStyle(fontSize: 16),
+            ElevatedButton(
+              onPressed: _isSubmitting ? null : _submitProblem,
+              child: _isSubmitting
+                  ? CircularProgressIndicator()
+                  : Text('Submit'),
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.yellow),
             ),
           ],
         ),

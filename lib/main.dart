@@ -139,7 +139,7 @@ class MyApp extends StatelessWidget {
       route(GstPanInputScreen.routeName, GstPanInputScreen()),
       route(RegisterPageServiceMan.routeName, RegisterPageServiceMan()),
       route(KycPageDriver.routeName, KycPageDriver()) ,
-      route(HelpSupportPage.routeName, HelpSupportPage())
+      //route(HelpSupportPage.routeName, HelpSupportPage())
     ],
     errorBuilder: (context, state) => ErrorPage(),
   );
