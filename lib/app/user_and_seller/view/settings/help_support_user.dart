@@ -12,9 +12,16 @@ class HelpSupportPageUser extends StatefulWidget {
 class _HelpSupportPageUserState extends State<HelpSupportPageUser> {
   final _problemController = TextEditingController();
   bool _isSubmitting = false;
+  List<dynamic> _problems = [];  // To store the problems fetched from the server
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchProblems();  // Fetch existing problems when the page loads
+  }
 
   Future<void> _submitProblem() async {
-    final url = Uri.parse(ApiEndPoints.baseURL + ApiEndPoints.help_support_update);
+    final url = Uri.parse(ApiEndPoints.baseURL + ApiEndPoints.help_support_insert);  // Update the endpoint
     setState(() {
       _isSubmitting = true;
     });
@@ -23,18 +30,26 @@ class _HelpSupportPageUserState extends State<HelpSupportPageUser> {
       final response = await http.post(
         url,
         body: {
+          'user_id': '12345',  // Replace with actual user ID
           'problem': _problemController.text,
-          // Optionally include user details like user ID if needed
         },
       );
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
-        // Handle success response
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Problem submitted successfully!')),
-        );
-        _problemController.clear();
+        if (data['status'] == 'success') {
+          // Show success message
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Problem submitted successfully!')),
+          );
+          _problemController.clear();
+          _fetchProblems();  // Fetch the updated list of problems
+        } else {
+          // Show error message
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Failed to submit problem.')),
+          );
+        }
       } else {
         // Handle server error
         ScaffoldMessenger.of(context).showSnackBar(
@@ -53,6 +68,37 @@ class _HelpSupportPageUserState extends State<HelpSupportPageUser> {
     }
   }
 
+  Future<void> _fetchProblems() async {
+    final url = Uri.parse(ApiEndPoints.baseURL + ApiEndPoints.help_support_get + '?user_id=12345');  // Update the endpoint
+
+    try {
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        if (data['status'] == 'success') {
+          setState(() {
+            _problems = data['data'];  // Update the problems list
+          });
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('No problems found.')),
+          );
+        }
+      } else {
+        // Handle server error
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to fetch problems.')),
+        );
+      }
+    } catch (e) {
+      // Handle network error
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error fetching problems: $e')),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,6 +111,7 @@ class _HelpSupportPageUserState extends State<HelpSupportPageUser> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Problem Submission Section
             Text(
               'Submit your problem:',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -85,6 +132,38 @@ class _HelpSupportPageUserState extends State<HelpSupportPageUser> {
                   ? CircularProgressIndicator()
                   : Text('Submit'),
               style: ElevatedButton.styleFrom(backgroundColor: Colors.yellow),
+            ),
+
+            // Divider to separate the sections
+            Divider(height: 32, color: Colors.grey),
+
+            // Submitted Problems Section
+            Text(
+              'Your Submitted Problems:',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 8),
+            Expanded(
+              child: _problems.isEmpty
+                  ? Center(child: Text('No problems submitted yet.'))
+                  : ListView.builder(
+                itemCount: _problems.length,
+                itemBuilder: (context, index) {
+                  final problem = _problems[index];
+                  return ListTile(
+                    title: Text(problem['problem']),
+                    subtitle: Text('Status: ${problem['status']}'),
+                    leading: Icon(
+                      problem['status'] == 'resolved'
+                          ? Icons.check_circle
+                          : Icons.pending,
+                      color: problem['status'] == 'resolved'
+                          ? Colors.green
+                          : Colors.orange,
+                    ),
+                  );
+                },
+              ),
             ),
           ],
         ),

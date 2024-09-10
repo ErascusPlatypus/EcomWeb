@@ -154,7 +154,7 @@ class UserController {
     var formData = FormData.fromMap(postData);
     try {
       var response =
-          await GetDio.getDio().post(ApiEndPoints.baseURL+ApiEndPoints.send_message_new, data: formData);
+          await GetDio.getDio().post(ApiEndPoints.baseURL+ApiEndPoints.send_message, data: formData);
       return jsonDecode(response.data);
     } catch (e) {
       EasyLoading.showError(AppStrings.ApiErrorMessage);

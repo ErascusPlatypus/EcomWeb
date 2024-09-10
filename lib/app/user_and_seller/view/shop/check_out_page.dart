@@ -210,6 +210,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                     double.parse(total),
                                     onRemove: () => removeFromCart(
                                         email, snapshot.data[index].pid),
+                                    email: widget.email,
                                   );
                                 },
                                 itemCount: snapshot.data.length,

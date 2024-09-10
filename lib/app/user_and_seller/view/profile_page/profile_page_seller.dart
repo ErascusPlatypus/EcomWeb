@@ -225,7 +225,7 @@ class _ProfilePageSellerState extends State<ProfilePageSeller> {
                   onTap: () {
                     print(email);
                       Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (_) => MessagesPage(userID: email,)));
+                      .push(MaterialPageRoute(builder: (_) => MessageDetailsPage(adminEmail: email,)));
                   },
                 ),
                 Divider(),

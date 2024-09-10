@@ -13,9 +13,9 @@ class OrderSuccessScreen extends StatelessWidget {
   static final String routeName = '/payment_success_screen';
   final Products product ;
   final String email ;
-  final String address ;
+  final String? address ;
 
-  OrderSuccessScreen({required this.email, required this.product, required this.address});
+  OrderSuccessScreen({required this.email, required this.product, this.address});
 
   //buyNow
   _buyNow(BuildContext context) async {

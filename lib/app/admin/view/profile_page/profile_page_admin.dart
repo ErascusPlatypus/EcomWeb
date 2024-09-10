@@ -243,8 +243,8 @@ class ProfilePageAdmin extends StatelessWidget {
                       onTap: () {
                         print(email);
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (_) => MessagesPage(
-                                  userID: email,
+                            builder: (_) => MessageDetailsPage(
+                                  adminEmail: email,
                                 )));
                       } //
                       ),
@@ -261,7 +261,7 @@ class ProfilePageAdmin extends StatelessWidget {
                       color: yellow,
                     ),
                     onTap: () =>  Navigator.of(context).push(
-                        MaterialPageRoute(builder: (_) => AdminHelpSupportPage()
+                        MaterialPageRoute(builder: (_) => HelpSupportAdminPage()
                         )
                     )
                   ),

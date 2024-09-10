@@ -12,7 +12,7 @@ class PhonepePg {
   int amount;
   BuildContext context;
   Products product ;
-  var address ;
+  String? address ;
   String email ;
 
   PhonepePg({
@@ -20,7 +20,7 @@ class PhonepePg {
     required this.context,
     required this.amount,
     required this.product,
-    required this.address});
+    this.address});
 
   String marchentId = "PGTESTPAYUAT86";
   String salt = "96434309-7796-489d-8924-ab56988a6076";
@@ -48,24 +48,41 @@ class PhonepePg {
       "mobileNumber": "9876543210", // login
       "paymentInstrument": {"type": "PAY_PAGE"}
     };
+
     log(body.toString());
-    // base64
+
+    // base64 encoding
     String bodyEncoded = base64Encode(utf8.encode(jsonEncode(body)));
-    // checksum =
-    // base64Body + apiEndPoint + salt
+
+    // Create the checksum using the body, API endpoint, and salt
     var byteCodes = utf8.encode(bodyEncoded + apiEndPoint + salt);
-    // sha256
     String checksum = "${sha256.convert(byteCodes)}###$saltIndex";
+
     PhonePePaymentSdk.startTransaction(bodyEncoded, callbackURL, checksum, "")
         .then((success) {
-      log("Payment success ${success}");
+      log("Payment response: ${success}");
 
-      navigateToSuccessScreen();
-
+      // Parse the result and check for success or failure
+      if (success != null && success["status"] == "SUCCESS") {
+        log("Payment successful");
+        navigateToSuccessScreen();
+      } else {
+        log("Payment failed with status: ${success?["status"]}");
+        showFailureMessage(success?["error"] ?? "Unknown error occurred.");
+      }
     }).catchError((error) {
-      log("Payment failed ${error}");
+      log("Payment error: ${error}");
+      showFailureMessage(error.toString());
     });
   }
+
+// Function to display failure message
+  void showFailureMessage(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Payment failed: $message"))
+    );
+  }
+
 
   void navigateToSuccessScreen() {
     Navigator.of(context).pushReplacement(
