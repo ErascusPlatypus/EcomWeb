@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:ecommerce_int2/app/admin/controller/adminAuthController.dart';
-import 'package:ecommerce_int2/helper/app_properties.dart';
 import 'package:ecommerce_int2/helper/base.dart';
 import 'package:ecommerce_int2/main.dart';
 import 'package:flutter/material.dart';
@@ -154,9 +153,6 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
     print("response");
     print(response);
     var decodedResponse = jsonDecode(response.data);
-
-    // added
-    // var decodedResponse = "true" ;
 
     if (decodedResponse == "true") {
       launch(context, ProfilePageAdmin.routeName, email.text);

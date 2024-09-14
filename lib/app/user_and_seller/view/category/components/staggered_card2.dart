@@ -1,5 +1,3 @@
-
-
 import 'package:ecommerce_int2/main.dart';
 import 'package:flutter/material.dart';
 
@@ -12,18 +10,27 @@ class CategoryCard2 extends StatelessWidget {
   final String assetPath;
   final String sellerId;
   final email;
+  final bool isRestricted;
 
-  CategoryCard2(this.email, {required this.controller, required this.begin, required this.end, required this.categoryName, required this.assetPath, required this.sellerId})
-      : height = Tween<double>(begin: 150, end: 200.0).animate(
-          CurvedAnimation(
-            parent: controller,
-            curve: Interval(
-              0.0,
-              0.300,
-              curve: Curves.ease,
-            ),
-          ),
-        ),
+  CategoryCard2(
+      this.email, {
+        required this.controller,
+        required this.begin,
+        required this.end,
+        required this.categoryName,
+        required this.assetPath,
+        required this.sellerId,
+        required this.isRestricted,
+      })  : height = Tween<double>(begin: 150, end: 200.0).animate(
+    CurvedAnimation(
+      parent: controller,
+      curve: Interval(
+        0.0,
+        0.300,
+        curve: Curves.ease,
+      ),
+    ),
+  ),
         itemHeight = Tween<double>(begin: 0, end: 100.0).animate(
           CurvedAnimation(
             parent: controller,
@@ -39,29 +46,32 @@ class CategoryCard2 extends StatelessWidget {
   final Animation<double> height;
   final Animation<double> itemHeight;
 
-  // This function is called each time the controller "ticks" a new frame.
-  // When it runs, all of the animation's values will have been
-  // updated to reflect the controller's current value.
   Widget _buildAnimation(BuildContext context, Widget? child) {
     return Container(
       height: height.value,
       width: MediaQuery.of(context).size.width,
-      decoration:
-          BoxDecoration(gradient: LinearGradient(colors: [begin, end], begin: Alignment.topLeft, end: Alignment.bottomRight), borderRadius: BorderRadius.all(Radius.circular(10))),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [begin, end],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+      ),
       padding: const EdgeInsets.all(16.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Align(
-              alignment: Alignment(-1, 0),
-              child: Text(
-                categoryName,
-                style: TextStyle(fontSize: 22, color: Colors.white, fontWeight: FontWeight.bold),
-              )),
+            alignment: Alignment(-1, 0),
+            child: Text(
+              categoryName,
+              style: TextStyle(fontSize: 22, color: Colors.white, fontWeight: FontWeight.bold),
+            ),
+          ),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.end,
-//        mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Container(
                 padding: EdgeInsets.only(bottom: 16.0),
@@ -76,8 +86,9 @@ class CategoryCard2 extends StatelessWidget {
                     'View products',
                     style: TextStyle(color: Colors.purple, fontWeight: FontWeight.bold),
                   ),
-                 onPressed: () => launch(context, ShopList.routeName, [sellerId, email]),
-                 // onPressed: () => EasyLoading.showInfo("We are working on it!"),
+                  onPressed: isRestricted
+                      ? null // Disable the button if the seller is restricted
+                      : () => launch(context, ShopList.routeName, [sellerId, email]),
                 ),
               )
             ],
@@ -103,15 +114,17 @@ class StaggeredCardCard2 extends StatefulWidget {
   final String categoryName;
   final String assetPath;
   final String sellerId;
+  final bool isRestricted;
 
   const StaggeredCardCard2(
-    this.email2, {
-    required this.begin,
-    required this.end,
-    required this.categoryName,
-    required this.assetPath,
-    required this.sellerId,
-  });
+      this.email2, {
+        required this.begin,
+        required this.end,
+        required this.categoryName,
+        required this.assetPath,
+        required this.sellerId,
+        required this.isRestricted,
+      });
 
   @override
   _StaggeredCardCard2State createState() => _StaggeredCardCard2State(email2);
@@ -150,7 +163,6 @@ class _StaggeredCardCard2State extends State<StaggeredCardCard2> with TickerProv
 
   @override
   Widget build(BuildContext context) {
-// 1.0 is normal animation speed.
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
@@ -170,6 +182,7 @@ class _StaggeredCardCard2State extends State<StaggeredCardCard2> with TickerProv
         end: widget.end,
         assetPath: widget.assetPath,
         sellerId: widget.sellerId,
+        isRestricted: widget.isRestricted, // Pass the restriction flag
       ),
     );
   }

@@ -25,7 +25,7 @@ class _ShopListPageState extends State<ShopListPage> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
+    // Dispose the controller when the widget is removed
     searchController.dispose();
     super.dispose();
   }
@@ -59,22 +59,41 @@ class _ShopListPageState extends State<ShopListPage> {
                 future: UserController.fetchAllSeller(),
                 builder: (context, AsyncSnapshot snapshot) {
                   if (snapshot.hasData) {
+                    // Separate restricted and non-restricted sellers
+                    var unrestrictedSellers = snapshot.data!
+                        .where((seller) => seller.isRestrict == "0")
+                        .toList();
+
+                    var restrictedSellers = snapshot.data!
+                        .where((seller) => seller.isRestrict == "1")
+                        .toList();
+
+                    // Concatenate unrestricted sellers followed by restricted sellers
+                    var allSellers = unrestrictedSellers + restrictedSellers;
+
                     return ListView.builder(
-                        itemCount: snapshot.data!.length,
-                        itemBuilder: (_, index) {
-                          Seller sellerItem = snapshot.data[index];
-                          return Padding(
-                            padding: EdgeInsets.symmetric(
-                              vertical: 16.0,
-                            ),
-                            child: StaggeredCardCard2(email,
-                                begin: Colors.purple,
-                                end: Colors.purple,
-                                categoryName: sellerItem.shopName,
-                                assetPath: 'assets/icons/shop.png',
-                                sellerId: sellerItem.id),
-                          );
-                        });
+                      itemCount: allSellers.length,
+                      itemBuilder: (_, index) {
+                        Seller sellerItem = allSellers[index];
+                        bool isRestricted = sellerItem.isRestrict == "1";
+
+                        return Padding(
+                          padding: EdgeInsets.symmetric(
+                            vertical: 16.0,
+                          ),
+                          child: StaggeredCardCard2(
+                            email,
+                            // Use different color for restricted sellers
+                            begin: isRestricted ? Colors.red : Colors.purple,
+                            end: isRestricted ? Colors.redAccent : Colors.purpleAccent,
+                            categoryName: sellerItem.shopName,
+                            assetPath: 'assets/icons/shop.png',
+                            sellerId: sellerItem.id,
+                            isRestricted: isRestricted,
+                          ),
+                        );
+                      },
+                    );
                   }
                   return CircularProgressIndicator.adaptive();
                 },

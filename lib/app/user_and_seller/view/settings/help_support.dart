@@ -20,7 +20,7 @@
     }
   
     Future<void> _fetchProblems() async {
-      final url = Uri.parse(ApiEndPoints.baseURL + ApiEndPoints.help_support_get);  // Update the endpoint
+      final url = Uri.parse(ApiEndPoints.baseURL + ApiEndPoints.help_support_admin);  // Update the endpoint
   
       try {
         final response = await http.get(url);

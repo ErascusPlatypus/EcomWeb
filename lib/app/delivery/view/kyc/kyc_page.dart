@@ -36,7 +36,10 @@ class _KycPageDriverState extends State<KycPageDriver> {
   }
 
   Future<void> _loadKycData() async {
-    final String email = ModalRoute.of(context as BuildContext)!.settings.arguments as String;
+    final String email = ModalRoute
+        .of(context as BuildContext)!
+        .settings
+        .arguments as String;
 
     var url = Uri.parse(ApiEndPoints.baseURL + ApiEndPoints.check_kyc);
     var response = await http.post(url, body: {"email": email});
@@ -56,8 +59,10 @@ class _KycPageDriverState extends State<KycPageDriver> {
 
         // Set images if available
         setState(() {
-          _panCardImage = data['pan_card_image'] != null ? XFile(data['pan_card_image']) : null;
-          _aadhaarImage = data['aadhaar_image'] != null ? XFile(data['aadhaar_image']) : null;
+          _panCardImage =
+          data['pan_card_image'] != null ? XFile(data['pan_card_image']) : null;
+          _aadhaarImage =
+          data['aadhaar_image'] != null ? XFile(data['aadhaar_image']) : null;
         });
       }
     } else {
@@ -85,7 +90,10 @@ class _KycPageDriverState extends State<KycPageDriver> {
 
   @override
   Widget build(BuildContext context) {
-    final String email = ModalRoute.of(context)!.settings.arguments as String;
+    final String email = ModalRoute
+        .of(context)!
+        .settings
+        .arguments as String;
 
     return Scaffold(
       appBar: AppBar(
@@ -237,15 +245,16 @@ class _KycPageDriverState extends State<KycPageDriver> {
 
     if (response.statusCode == 200) {
       var responseBody = await response.stream.bytesToString();
-      var decodedResponse = jsonDecode(responseBody);
 
-      if (decodedResponse == "true") {
+      if (responseBody.trim() == "true") {
         Navigator.pushReplacementNamed(context as BuildContext, ProfilePageDriver.routeName, arguments: email);
+
       } else {
-        print('Error: Data insertion failed');
+        print('Error: $responseBody');
       }
     } else {
       print('Failed to submit KYC');
     }
   }
+
 }

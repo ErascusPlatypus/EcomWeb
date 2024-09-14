@@ -27,7 +27,20 @@ class ShopItemList extends StatefulWidget {
 
 class _ShopItemListState extends State<ShopItemList> {
   int quantity = 1;
-  var expanded = false;
+  double totalPrice = 0.0;
+  var expanded = false ;
+
+  @override
+  void initState() {
+    super.initState();
+    totalPrice = widget.total;  // Set initial total price
+  }
+
+  void _updateTotalPrice() {
+    setState(() {
+      totalPrice = (double.parse(widget.product.price) * quantity) + widget.service + widget.gst + widget.transFee;
+    });
+  }
 
   void _navigateToOrderConfirmation() {
     // Navigate to the OrderConfirmationScreen with email and product
@@ -43,7 +56,7 @@ class _ShopItemListState extends State<ShopItemList> {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(top: 20),
-      height: expanded ? 320 : 130, // Adjusted height for Buy Now button
+      height: expanded ? 320 : 130,  // Adjusted height for Buy Now button
       child: Stack(
         children: <Widget>[
           Align(
@@ -96,7 +109,7 @@ class _ShopItemListState extends State<ShopItemList> {
                                             child: Column(
                                               children: [
                                                 Text(
-                                                  '\u{20B9}${widget.total.toStringAsFixed(2)}',
+                                                  '\u{20B9}${totalPrice.toStringAsFixed(2)}',
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(
                                                       color: darkGrey,
@@ -138,6 +151,7 @@ class _ShopItemListState extends State<ShopItemList> {
                                 onChanged: (value) {
                                   setState(() {
                                     quantity = value;
+                                    _updateTotalPrice();  // Update total price based on quantity
                                   });
                                 },
                                 axis: Axis.vertical,
@@ -206,7 +220,7 @@ class _ShopItemListState extends State<ShopItemList> {
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text("Total:"),
-                                    Text(widget.total.toStringAsFixed(2)),
+                                    Text(totalPrice.toStringAsFixed(2)),  // Updated total price
                                   ],
                                 ),
                               ],
@@ -228,3 +242,4 @@ class _ShopItemListState extends State<ShopItemList> {
     );
   }
 }
+

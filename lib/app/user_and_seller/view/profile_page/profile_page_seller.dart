@@ -3,6 +3,7 @@ import 'package:ecommerce_int2/app/user_and_seller/controller/userController.dar
 import 'package:ecommerce_int2/app/user_and_seller/view/profile_page/all_message.dart';
 import 'package:ecommerce_int2/app/user_and_seller/view/profile_page/edit_profile_page_seller.dart';
 import 'package:ecommerce_int2/app/user_and_seller/view/profile_page/serviceman_progress.dart';
+import 'package:ecommerce_int2/app/user_and_seller/view/settings/help_support_seller.dart';
 import 'package:ecommerce_int2/helper/app_properties.dart';
 import 'package:ecommerce_int2/helper/base.dart';
 import 'package:flutter/material.dart';
@@ -267,7 +268,6 @@ class _ProfilePageSellerState extends State<ProfilePageSeller> {
                 ),
                 Divider(),
                 ListTile(
-                  enabled: false,
                   title: Text('Help & Support'),
                   subtitle: Text('Help center and legal support'),
                   leading: Image.asset('assets/icons/support.png'),
@@ -275,6 +275,8 @@ class _ProfilePageSellerState extends State<ProfilePageSeller> {
                     Icons.chevron_right,
                     color: yellow,
                   ),
+                  onTap: () => Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (_) => HelpSupportPageSeller())),
                 ),
                 Divider(),
                 ListTile(

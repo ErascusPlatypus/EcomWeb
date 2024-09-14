@@ -2,6 +2,8 @@ class ApiEndPoints {
   // Change your base url here.
   static String baseURL = "http://10.0.2.2:8080/";
 
+  //static String baseURL = "https://ecoms.visanka.in/ecomlat-php/" ;
+
   // static String baseURL = "http://192.168.22.165/ecom/";
 
   // change your baseURL here only
@@ -107,5 +109,9 @@ class ApiEndPoints {
   static String about_us_update = "about_us_update.php/" ;
   static String help_support_insert = "help_support_insert.php/" ;
   static String help_support_get = "help_support_get.php/" ;
+  static String help_support_admin = "help_support_admin.php/" ;
   static String help_support_update = "help_support_update.php/" ;
+  static String add_seller_item = "add_seller_item.php/" ;
+  static String payment_history_add = "payment_history_add.php/" ;
+  static String payment_history_get = "payment_history_get.php/" ;
 }

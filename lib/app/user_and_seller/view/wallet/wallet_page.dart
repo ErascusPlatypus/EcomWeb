@@ -67,7 +67,7 @@ class _WalletPageState extends State<WalletPage> with TickerProviderStateMixin {
                           child: IconButton(
                             onPressed: () => Navigator.of(context).push(
                                 MaterialPageRoute(
-                                    builder: (_) => PaymentHistoryPage())),
+                                    builder: (_) => PaymentHistoryScreen(userId: "1",))),
                             icon: SvgPicture.asset(
                               'assets/icons/reload_icon.svg',
                               // ignore: deprecated_member_use

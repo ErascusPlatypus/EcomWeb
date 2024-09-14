@@ -84,28 +84,6 @@ class _ContactsListState extends State<ContactsList> {
           },
         ),
       ),
-      /*body: Scrollbar(
-        thickness: 6,
-        child: ListView.builder(
-          itemCount: _contacts.length,
-          itemBuilder: (context, index) {
-            Contact contact = _contacts[index];
-            return GestureDetector(
-              onTap: () => context.toast(contact.toMap()),
-              child: Card(
-                margin: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                child: ListTile(
-                  leading: CircleAvatar(
-                    backgroundImage: AssetImage('assets/icons/img_profile.png'),
-                  ),
-                  title: Text(contact.displayName ?? '', style: TextStyle(fontWeight: FontWeight.bold)),
-                  subtitle: Text(contact.phones!.isNotEmpty ? contact.phones?.first.value ?? '' : 'No phone number'),
-                ),
-              ),
-            );
-          },
-        ),
-      ),*/
     );
   }
 

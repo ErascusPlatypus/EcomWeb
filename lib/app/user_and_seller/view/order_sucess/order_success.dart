@@ -47,7 +47,7 @@ class OrderSuccessScreen extends StatelessWidget {
       if (res.statusCode == 200) {
         var resBodyOfBuyNow = jsonDecode(res.body);
         if (resBodyOfBuyNow['success'] == true) {
-
+          await _addPaymentHistory();
           //print('SUUUUUUUUUUUUUUUUUUUUUUUUUCESSSSSSSSSSSSSSS');
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (context) {
@@ -78,6 +78,33 @@ class OrderSuccessScreen extends StatelessWidget {
       print(e.toString());
     }
   }
+
+  // Add payment history
+  _addPaymentHistory() async {
+    try {
+      var res = await http.post(
+        Uri.parse(ApiEndPoints.baseURL + ApiEndPoints.payment_history_add),
+        body: {
+          "user_id": "1",  // Use actual user_id
+          "product_name": product.name,  // Product name from the product object
+          "seller": "sar1@k.com",
+          "shop_name": "SarShop",
+          "order_date": "24-08-2024",  // Date can be dynamic
+        },
+      );
+      if (res.statusCode == 200) {
+        var resBody = jsonDecode(res.body);
+        if (resBody['success'] == true) {
+          print("Payment history added successfully.");
+        } else {
+          print("Failed to add payment history.");
+        }
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
 
 
   @override
